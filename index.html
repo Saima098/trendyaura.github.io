@@ -2,137 +2,111 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Trendy Aura - Lifestyle & More</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Trendy Aura</title>
   <style>
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: 'Segoe UI', sans-serif;
       margin: 0;
-      background: #f0f8ff;
-      color: #333;
+      background-color: #fff8f3;
     }
     header {
-      background: linear-gradient(90deg, #ff6f91, #ff9671, #ffc75f);
-      padding: 20px 0;
-      text-align: center;
+      background-color: #ff6f61;
       color: white;
-      font-size: 2.5rem;
-      font-weight: bold;
-      letter-spacing: 2px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      text-align: center;
+      padding: 30px 20px;
     }
     nav {
-      background: #fff;
       display: flex;
       justify-content: center;
       gap: 20px;
-      padding: 15px 0;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      position: sticky;
-      top: 0;
-      z-index: 100;
+      background-color: #ffccbc;
+      padding: 10px 0;
     }
     nav a {
       text-decoration: none;
-      color: #ff6f91;
-      font-weight: 600;
-      padding: 10px 18px;
-      border: 2px solid #ff6f91;
-      border-radius: 25px;
-      transition: all 0.3s ease;
-      font-size: 1.1rem;
+      color: #4a4a4a;
+      font-weight: bold;
     }
-    nav a:hover {
-      background: #ff6f91;
-      color: white;
-      box-shadow: 0 4px 10px rgba(255,111,145,0.5);
-    }
-    main {
-      max-width: 1000px;
-      margin: 40px auto;
-      text-align: center;
+    .section {
+      padding: 30px 20px;
     }
     h2 {
-      color: #ff6f91;
-      font-size: 2rem;
-      margin-bottom: 20px;
+      color: #333;
+      margin-bottom: 15px;
     }
-    .category-buttons {
+    .products {
       display: flex;
-      justify-content: center;
-      gap: 25px;
+      gap: 20px;
       flex-wrap: wrap;
     }
-    .category-buttons a {
-      display: inline-block;
-      background: #ff9671;
-      color: white;
-      padding: 25px 40px;
-      font-size: 1.3rem;
-      border-radius: 40px;
-      text-decoration: none;
-      font-weight: 700;
-      box-shadow: 0 6px 15px rgba(255,150,113,0.5);
-      transition: background 0.3s ease, transform 0.3s ease;
+    .product-card {
+      background-color: white;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      width: 220px;
+      padding: 15px;
+      text-align: center;
     }
-    .category-buttons a:hover {
-      background: #ffc75f;
-      color: #333;
-      transform: scale(1.1);
-      box-shadow: 0 8px 20px rgba(255,199,95,0.7);
+    .product-card img {
+      width: 100%;
+      height: 160px;
+      object-fit: contain;
+    }
+    .product-card a {
+      display: inline-block;
+      margin-top: 10px;
+      text-decoration: none;
+      background-color: #ff6f61;
+      color: white;
+      padding: 8px 12px;
+      border-radius: 5px;
     }
     footer {
-      margin-top: 50px;
-      padding: 20px 0;
-      background: #ff6f91;
-      color: white;
       text-align: center;
-      font-weight: 600;
-      box-shadow: 0 -4px 8px rgba(255,111,145,0.5);
-    }
-    @media (max-width: 600px) {
-      nav {
-        flex-direction: column;
-        gap: 10px;
-      }
-      .category-buttons {
-        flex-direction: column;
-        gap: 15px;
-      }
-      .category-buttons a {
-        padding: 20px;
-        font-size: 1.2rem;
-      }
+      background: #f0f0f0;
+      padding: 20px;
+      font-size: 14px;
     }
   </style>
 </head>
 <body>
   <header>
-    Trendy Aura
+    <h1>Discover the Trendy Side of Life</h1>
+    <p>Explore style, gadgets, home hacks & more!</p>
   </header>
 
   <nav>
-    <a href="index.html">Home</a>
+    <a href="#">Home</a>
     <a href="fashion.html">Fashion</a>
-    <a href="games.html">Gaming</a>
-    <a href="home.html">Home</a>
+    <a href="gaming.html">Gaming</a>
+    <a href="home.html">Home & Kitchen</a>
     <a href="life.html">Life</a>
   </nav>
 
-  <main>
-    <h2>Welcome to Trendy Aura!</h2>
-    <p>Your one-stop blog for the latest in lifestyle, fashion, gaming, and home essentials. Explore, enjoy, and get inspired!</p>
-
-    <div class="category-buttons">
-      <a href="fashion.html">Fashion</a>
-      <a href="games.html">Gaming</a>
-      <a href="home.html">Home</a>
-      <a href="life.html">Life</a>
+  <div class="section">
+    <h2>Featured Picks</h2>
+    <div class="products">
+      <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/61v6nZrCR0L._AC_SL1500_.jpg" alt="Smartwatch" />
+        <h4>Fitness Smartwatch</h4>
+        <a href="#">Buy Now</a>
+      </div>
+      <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/71pC69I3BQL._AC_SL1500_.jpg" alt="Desk Lamp" />
+        <h4>Minimalist Desk Lamp</h4>
+        <a href="#">Buy Now</a>
+      </div>
+      <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/71MlcO29QOL._AC_SL1500_.jpg" alt="Gaming Controller" />
+        <h4>Wireless Gaming Controller</h4>
+        <a href="#">Buy Now</a>
+      </div>
     </div>
-  </main>
+  </div>
 
   <footer>
-    &copy; 2025 Trendy Aura. All rights reserved.
+    © 2025 Trendy Aura | Lifestyle, Fashion, Gaming & Home Picks
   </footer>
 </body>
 </html>

@@ -49,4 +49,81 @@
     }
     main {
       max-width: 900px;
-      margin:
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+    h1 {
+      color: #ff6f91;
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    article {
+      background: white;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 6px 15px rgba(255,150,113,0.3);
+      margin-bottom: 30px;
+    }
+    article h2 {
+      color: #ff9671;
+      margin-top: 0;
+    }
+    article p {
+      line-height: 1.6;
+    }
+    footer {
+      margin-top: 50px;
+      padding: 20px 0;
+      background: #ff6f91;
+      color: white;
+      text-align: center;
+      font-weight: 600;
+      box-shadow: 0 -4px 8px rgba(255,111,145,0.5);
+    }
+    @media (max-width: 600px) {
+      nav {
+        flex-direction: column;
+        gap: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    Trendy Aura
+  </header>
+
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="fashion.html" class="active">Fashion</a>
+    <a href="gaming.html">Gaming</a>
+    <a href="home.html">Home</a>
+    <a href="life.html">Life</a>
+  </nav>
+
+  <main>
+    <h1>Fashion</h1>
+    
+    <article>
+      <h2>Latest Trends in 2025</h2>
+      <p>Explore the hottest fashion trends for 2025, from vibrant colors to eco-friendly fabrics. Stay ahead in style with our curated guides.</p>
+    </article>
+    
+    <article>
+      <h2>How to Mix and Match Outfits</h2>
+      <p>Learn the art of mixing and matching your wardrobe essentials to create versatile looks for any occasion.</p>
+    </article>
+
+    <article>
+      <h2>Top Accessories to Complete Your Look</h2>
+      <p>Discover must-have accessories that add a perfect finishing touch to your outfits.</p>
+    </article>
+
+  </main>
+
+  <footer>
+    &copy; 2025 Trendy Aura. All rights reserved.
+  </footer>
+</body>
+</html>

@@ -2,143 +2,411 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>TrendyAura – Smart Living Starts Here</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Modexa - Lifestyle & Tech Finds</title>
+
+  <link rel="icon" href="favicon.png" sizes="32x32" />
+  <link rel="icon" href="favicon.png" sizes="16x16" />
+  <link rel="shortcut icon" href="favicon.png" />
+
   <style>
+    /* Base styles from previous version */
+    * {
+      box-sizing: border-box;
+    }
     body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: #f7f8fa;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0; padding: 0;
+      background-color: #f5f5f5;
+      color: #333;
     }
     header {
-      background-color: #5e60ce;
-      color: white;
-      padding: 20px 40px;
+      background: linear-gradient(135deg, #2c3e50, #34495e);
+      color: #fff;
+      padding: 20px 20px 10px;
       text-align: center;
     }
+    header h1 {
+      margin: 0;
+      font-size: 2.5rem;
+      letter-spacing: 1.5px;
+      font-weight: 700;
+    }
+    header p {
+      margin: 5px 0 0;
+      font-size: 1.1rem;
+      font-weight: 400;
+      opacity: 0.85;
+    }
     nav {
-      background: #4ea8de;
+      background: #fff;
       display: flex;
       justify-content: center;
-      flex-wrap: wrap;
-      gap: 15px;
-      padding: 10px;
+      border-bottom: 1px solid #eee;
+      user-select: none;
+      font-weight: 600;
+      font-size: 1rem;
     }
-    nav a {
-      color: white;
-      text-decoration: none;
-      padding: 8px 16px;
-      background: #3b9bd3;
-      border-radius: 20px;
-    }
-    nav a:hover {
-      background: #2f81b7;
-    }
-    .container {
+    nav ul {
+      margin: 0; padding: 0;
+      list-style: none;
       display: flex;
-      margin: 30px;
-      gap: 30px;
+      gap: 20px;
     }
-    .main-content {
-      flex: 3;
+    nav li {
+      position: relative;
     }
-    .sidebar {
-      flex: 1;
-      background: #fff;
-      padding: 20px;
-      border-radius: 8px;
-    }
-    .post {
-      background: #fff;
-      border-radius: 10px;
-      padding: 20px;
-      margin-bottom: 20px;
-    }
-    .post img {
-      width: 100%;
-      border-radius: 6px;
-    }
-    .post h3 {
-      margin-top: 10px;
-    }
-    .post a {
+    nav > ul > li > a {
+      display: block;
+      padding: 18px 15px;
+      color: #2c3e50;
       text-decoration: none;
-      color: #5e60ce;
+      white-space: nowrap;
+      border-bottom: 3px solid transparent;
+      transition: color 0.3s, border-color 0.3s;
     }
-    .sidebar h4 {
-      border-bottom: 2px solid #eee;
-      padding-bottom: 5px;
+    nav > ul > li > a:hover,
+    nav > ul > li:hover > a {
+      color: #e74c3c;
+      border-color: #e74c3c;
+    }
+    nav li ul {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: white;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+      border-radius: 6px;
+      min-width: 180px;
+      z-index: 999;
+      padding: 8px 0;
+    }
+    nav li:hover > ul {
+      display: block;
+    }
+    nav li ul li a {
+      padding: 10px 16px;
+      color: #2c3e50;
+      font-weight: 500;
+      display: block;
+      white-space: nowrap;
+      transition: background-color 0.3s;
+    }
+    nav li ul li a:hover {
+      background-color: #f7f7f7;
+      color: #e74c3c;
     }
     footer {
       text-align: center;
-      padding: 20px;
-      background: #4ea8de;
+      padding: 25px 20px;
+      background: #2c3e50;
+      color: #fff;
+      margin-top: 50px;
+      font-size: 0.9rem;
+    }
+    footer a {
+      color: #e74c3c;
+      text-decoration: none;
+      margin: 0 8px;
+      font-weight: 600;
+    }
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    /* Main grid layout */
+    main.container {
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: 3fr 1fr;
+      gap: 30px;
+    }
+
+    /* Featured best pick */
+    .featured-pick {
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 6px 20px rgba(231,76,60,0.2);
+      display: flex;
+      flex-direction: column;
+    }
+    .featured-pick img {
+      width: 100%;
+      height: 320px;
+      object-fit: cover;
+    }
+    .featured-content {
+      padding: 25px;
+    }
+    .featured-content h2 {
+      margin-top: 0;
+      font-size: 2rem;
+      color: #e74c3c;
+    }
+    .featured-content p {
+      font-size: 1.1rem;
+      line-height: 1.5;
+      margin-bottom: 20px;
+    }
+    .featured-content a.button {
+      display: inline-block;
+      background-color: #e74c3c;
       color: white;
-      margin-top: 30px;
+      padding: 12px 24px;
+      border-radius: 30px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: background-color 0.3s;
+    }
+    .featured-content a.button:hover {
+      background-color: #c0392b;
+    }
+
+    /* Category previews below featured */
+    section.category-previews {
+      margin-top: 50px;
+      grid-column: 1 / 2;
+    }
+    section.category-previews h3 {
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+      color: #2c3e50;
+      font-weight: 700;
+    }
+    .category-preview-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
+      gap: 25px;
+    }
+    .category-card {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      padding: 20px;
+      cursor: pointer;
+      transition: box-shadow 0.3s;
+    }
+    .category-card:hover {
+      box-shadow: 0 6px 20px rgba(231, 76, 60, 0.3);
+    }
+    .category-card img {
+      width: 100%;
+      height: 140px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 15px;
+    }
+    .category-card h4 {
+      margin: 0 0 10px;
+      color: #e74c3c;
+      font-weight: 700;
+      font-size: 1.3rem;
+    }
+    .category-card p {
+      margin: 0 0 12px;
+      font-size: 1rem;
+      color: #555;
+      line-height: 1.3;
+    }
+    .category-card a.read-more {
+      font-weight: 600;
+      color: #e74c3c;
+      text-decoration: none;
+      font-size: 0.95rem;
+    }
+    .category-card a.read-more:hover {
+      text-decoration: underline;
+    }
+
+    /* Sidebar Quick Picks */
+    aside.sidebar {
+      background-color: #f0f8ff;
+      padding: 25px 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      height: fit-content;
+    }
+    aside.sidebar h3 {
+      margin-top: 0;
+      font-weight: 700;
+      font-size: 1.3rem;
+      color: #2c3e50;
+      margin-bottom: 15px;
+    }
+    aside.sidebar ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    aside.sidebar li {
+      margin-bottom: 14px;
+    }
+    aside.sidebar a {
+      color: #007bff;
+      text-decoration: underline;
+      font-weight: 600;
+      transition: color 0.3s;
+    }
+    aside.sidebar a:hover {
+      color: #e74c3c;
+    }
+
+    /* Responsive */
+    @media (max-width: 960px) {
+      main.container {
+        grid-template-columns: 1fr;
+        margin: 20px auto;
+      }
+      section.category-previews {
+        margin-top: 30px;
+      }
+      aside.sidebar {
+        margin-top: 40px;
+      }
     }
   </style>
 </head>
 <body>
 
-<header>
-  <h1>TrendyAura</h1>
-  <p>Your Guide to Smart Living – Honest Reviews & Life Solutions</p>
-</header>
+  <header>
+    <h1>Modexa</h1>
+    <p>Your Daily Dose of Lifestyle, Home & Tech Finds</p>
+  </header>
 
-<nav>
-  <a href="#">Home</a>
-  <a href="fashion.html">Fashion</a>
-  <a href="home.html">Home</a>
-  <a href="life.html">Life</a>
-  <a href="games.html">Gaming</a>
-  <a href="#">Tech</a>
-  <a href="#">Work From Home</a>
-</nav>
-
-<div class="container">
-  <div class="main-content">
-    <div class="post">
-      <img src="https://m.media-amazon.com/images/I/71pC69I3BQL._AC_SL1500_.jpg" alt="Lamp">
-      <h3>Editor’s Pick: Minimalist LED Desk Lamp</h3>
-      <p>This lamp is perfect for small desks, late-night readers, and students. With touch dimming and USB charging, it’s a smart choice for modern homes.</p>
-      <a href="https://your-amazon-affiliate-link" target="_blank">Read Full Review</a>
-    </div>
-
-    <div class="post">
-      <img src="https://m.media-amazon.com/images/I/81s6DUyQCZL._AC_SL1500_.jpg" alt="Chair">
-      <h3>We Compared 3 Ergonomic Chairs – Here’s What We Found</h3>
-      <p>If you work long hours, choosing the right chair matters. We tested different styles and brands—this is the one that stood out in comfort and support.</p>
-      <a href="https://your-affiliate-link" target="_blank">See Our Insights</a>
-    </div>
-
-    <div class="post">
-      <img src="https://m.media-amazon.com/images/I/91JZs-jM6lL._AC_SL1500_.jpg" alt="Fashion Watch">
-      <h3>Top 5 Minimalist Watches in 2025</h3>
-      <p>Looking stylish doesn’t have to cost a fortune. Here’s our list of budget-friendly yet elegant watches for everyday wear.</p>
-      <a href="https://your-affiliate-link" target="_blank">Explore Now</a>
-    </div>
-  </div>
-
-  <div class="sidebar">
-    <h4>Quick Reads</h4>
+  <nav>
     <ul>
-      <li><a href="#">Home Office Setup Checklist</a></li>
-      <li><a href="#">Gaming Chair vs Office Chair</a></li>
-      <li><a href="#">Top Kitchen Gadgets Under $50</a></li>
-      <li><a href="#">Best Plants for Small Spaces</a></li>
+      <li>
+        <a href="homeglow.html">HomeGlow</a>
+        <ul>
+          <li><a href="positive-vibes.html">Positive Vibes at Home</a></li>
+          <li><a href="budgetdecor.html">Luxury Looks for Less</a></li>
+          <li><a href="decorgarden.html">Decor & Garden Picks</a></li>
+          <li><a href="Organizingclothes.html">Clothes Storage & Organization</a></li>
+        </ul>
+      </li>
+      <li>
+        <a href="lifestyle.html">Lifestyle</a>
+        <ul>
+          <li><a href="wellbeing.html">Wellbeing & Self-Care</a></li>
+          <li><a href="routine.html">Routine Essentials</a></li>
+          <li><a href="weightlose.html">Lose 7lbs in 30 Days</a></li>
+          <li><a href="mummytommy.html">Fix Mummy Tummy Naturally</a></li>
+        </ul>
+      </li>
+      <li>
+        <a href="tech.html">Tech</a>
+        <ul>
+          <li><a href="study.html">Study Smart with AI</a></li>
+          <li><a href="smart-home-essentials.html">Smart Living</a></li>
+          <li><a href="games.html">Best Game Controllers</a></li>
+        </ul>
+      </li>
+      <li>
+        <a href="taste-tools.html">Taste & Tools</a>
+        <ul>
+          <li><a href="kitchen-tools.html">Kitchen Tools</a></li>
+          <li><a href="recipes.html">Quick Recipes</a></li>
+          <li><a href="diet.html">Best Diet for Weight Loss</a></li>
+        </ul>
+      </li>
+      <li>
+        <a href="beauty.html">Beauty</a>
+        <ul>
+          <li><a href="skincare.html">Skincare Picks</a></li>
+          <li><a href="haircare.html">Best Hair Tools</a></li>
+          <li><a href="skincare-tools.html">2025's Best Skincare Tools</a></li>
+          <li><a href="glassskin.html">DIY Glass Skin Routine</a></li>
+          <li><a href="Thinhair.html">Hair Loss Treatment</a></li>
+          <li><a href="redlight.html">Red Light Glow</a></li>
+        </ul>
+      </li>
+      <li>
+        <a href="bestpickid.html">Kids</a>
+      </li>
     </ul>
+  </nav>
 
-    <h4>Comparison Guides</h4>
-    <ul>
-      <li><a href="#">Noise Cancelling vs Open-Back Headphones</a></li>
-      <li><a href="#">Top 3 Air Purifiers Compared</a></li>
-    </ul>
-  </div>
-</div>
+  <main class="container">
 
-<footer>
-  &copy; 2025 TrendyAura | Lifestyle Advice, Reviews & Daily Solutions
-</footer>
+    <section class="featured-pick">
+      <img src="featured-best-pick.jpg" alt="Featured Best Pick: Smart Home Hub" />
+      <div class="featured-content">
+        <h2>Our Best Pick: Smart Home Hub for 2025</h2>
+        <p>Discover why the XYZ Smart Home Hub is the ultimate choice for convenience, security, and style. We tested the top models so you don’t have to!</p>
+        <a href="smart-home-hub-review.html" class="button" aria-label="Read full review of Smart Home Hub">Read Full Review</a>
+      </div>
+    </section>
+
+    <section class="category-previews">
+      <h3>Explore Our Top Categories</h3>
+      <div class="category-preview-grid">
+
+        <div class="category-card">
+          <img src="homeglow-category.jpg" alt="HomeGlow category preview" />
+          <h4>HomeGlow</h4>
+          <p>Transform your living space with affordable decor and smart organization tips.</p>
+          <a href="homeglow.html" class="read-more">Explore HomeGlow →</a>
+        </div>
+
+        <div class="category-card">
+          <img src="lifestyle-category.jpg" alt="Lifestyle category preview" />
+          <h4>Lifestyle</h4>
+          <p>Stay healthy and happy with our expert guides on wellbeing and self-care.</p>
+          <a href="lifestyle.html" class="read-more">Explore Lifestyle →</a>
+        </div>
+
+        <div class="category-card">
+          <img src="tech-category.jpg" alt="Tech category preview" />
+          <h4>Tech</h4>
+          <p>Get the latest gadgets, smart devices, and tips to live smarter every day.</p>
+          <a href="tech.html" class="read-more">Explore Tech →</a>
+        </div>
+
+        <div class="category-card">
+          <img src="taste-tools-category.jpg" alt="Taste & Tools category preview" />
+          <h4>Taste & Tools</h4>
+          <p>Find the best kitchen tools and quick recipes to fuel your busy lifestyle.</p>
+          <a href="taste-tools.html" class="read-more">Explore Taste & Tools →</a>
+        </div>
+
+        <div class="category-card">
+          <img src="beauty-category.jpg" alt="Beauty category preview" />
+          <h4>Beauty</h4>
+          <p>Discover skincare secrets and top beauty tools recommended by experts.</p>
+          <a href="beauty.html" class="read-more">Explore Beauty →</a>
+        </div>
+
+        <div class="category-card">
+          <img src="kids-category.jpg" alt="Kids category preview" />
+          <h4>Kids</h4>
+          <p>Top picks for kids’ gear, toys, and lifestyle essentials parents trust.</p>
+          <a href="bestpickid.html" class="read-more">Explore Kids →</a>
+        </div>
+
+      </div>
+    </section>
+
+    <aside class="sidebar">
+      <h3>Quick Picks</h3>
+      <ul>
+        <li><a href="skincare-tools.html">✨ Best Skincare Tools of 2025</a></li>
+        <li><a href="smart-home-essentials.html">🪄 Smart Home Essentials You Need</a></li>
+        <li><a href="gadgets-under-50.html">🎧 Coolest Gadgets Under $50</a></li>
+      </ul>
+    </aside>
+
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Modexa. All rights reserved.</p>
+    <a href="media-kit.html">Media Kit</a> |
+    <a href="terms-of-service.html" target="_blank" rel="noopener noreferrer">Terms of Service</a> |
+    <a href="privacy-policy.html" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
+  </footer>
 
 </body>
 </html>

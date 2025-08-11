@@ -1,150 +1,159 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Modexa - Lifestyle & Tech Finds</title>
-<link rel="icon" type="image/png" href="favicon.png">
-<style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'Segoe UI', sans-serif; background-color: #f5f5f5; color: #333; }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Modexa - Lifestyle & Tech Finds</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', sans-serif; background: #f5f5f5; color: #333; }
 
-  /* HEADER */
-  header { background: linear-gradient(135deg, #2c3e50, #34495e); color: #fff; padding: 20px; text-align: center; }
-  header h1 { margin-bottom: 5px; }
-  header p { font-size: 1rem; }
+    header { background: linear-gradient(135deg,#2c3e50,#34495e); color: #fff; padding: 20px; text-align: center; }
+    header h1 { margin-bottom: 5px; }
+    header p { font-size: 1rem; }
 
-  /* NAVIGATION */
-  nav { background-color: #fff; border-bottom: 1px solid #eee; display: flex; align-items: center; justify-content: space-between; padding: 10px 15px; }
-  .nav-links { display: flex; gap: 12px; }
-  .nav-links a { padding: 8px 16px; border-radius: 20px; background: #eee; text-decoration: none; font-weight: 600; color: #2c3e50; }
-  .nav-links a:hover { background: #e74c3c; color: #fff; }
-  .search-box input { padding: 5px 10px; border-radius: 15px; border: 1px solid #ccc; }
+    nav { display: flex; align-items: center; justify-content: space-between; background: #fff; padding: 10px; border-bottom: 1px solid #eee; position: sticky; top: 0; z-index: 100; }
+    .nav-links { display: flex; gap: 10px; }
+    .nav-links a { padding: 8px 12px; background: #eee; border-radius: 20px; text-decoration:none; font-weight:600; color:#333; white-space: nowrap; }
+    .nav-links a:hover { background: #e74c3c; color:#fff; }
 
-  /* HAMBURGER */
-  .hamburger { display: none; flex-direction: column; cursor: pointer; }
-  .hamburger span { height: 3px; width: 25px; background: #333; margin: 4px 0; border-radius: 2px; }
-  .mobile-menu { display: none; flex-direction: column; gap: 10px; padding: 10px; background: #fff; }
-  .mobile-menu a { padding: 8px; border-radius: 8px; background: #eee; color: #2c3e50; text-decoration: none; }
+    .search-box input { padding: 5px 10px; border-radius: 20px; border: 1px solid #ccc; }
 
-  /* MAIN */
-  .main { max-width: 1200px; margin: auto; display: flex; flex-wrap: wrap; gap: 20px; padding: 20px; }
-  .content { flex: 3; display: flex; flex-direction: column; gap: 20px; }
-  .sidebar { flex: 1; background: #f0f8ff; padding: 10px; border-radius: 10px; }
+    .hamburger { display: none; flex-direction: column; cursor: pointer; gap: 3px; }
+    .hamburger span { width: 25px; height: 3px; background: #333; border-radius: 2px; }
+    .mobile-menu { display: none; flex-direction: column; background: #fff; padding: 10px; }
 
-  /* SLIDESHOW */
-  .slideshow { position: relative; width: 100%; overflow: hidden; border-radius: 10px; }
-  .slide { display: none; }
-  .slide img { width: 100%; display: block; border-radius: 10px; }
-  .slide.active { display: block; }
+    .mobile-menu a { padding: 8px; border-radius: 8px; background: #eee; color: #333; text-decoration: none; margin-bottom: 5px; }
 
-  /* SECTION */
-  .section { background: #fff; padding: 20px; border-radius: 10px; }
-  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 20px; }
-  .card { background: #fff; padding: 15px; border-radius: 10px; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-  .card img { width: 100%; height: 120px; object-fit: contain; border-radius: 8px; }
+    .main { max-width: 1200px; margin: 20px auto; display: flex; flex-wrap: wrap; gap: 20px; padding: 0 10px; }
 
-  /* FOOTER */
-  footer { text-align: center; padding: 20px; background: #2c3e50; color: #fff; margin-top: 20px; }
+    .content { flex: 2; min-width: 280px; display: flex; flex-direction: column; gap: 20px; }
+    .sidebar { flex: 1; min-width: 200px; background: #f0f8ff; padding: 10px; border-radius: 10px; }
 
-  /* RESPONSIVE */
-  @media (max-width: 768px) {
-    .nav-links, .search-box { display: none; }
-    .hamburger { display: flex; }
-    .sidebar { order: 2; }
-    .content { order: 1; }
-  }
-</style>
+    .slideshow { position: relative; width: 100%; overflow: hidden; border-radius: 8px; }
+    .slide { display: none; }
+    .slide img { width: 100%; border-radius: 8px; }
+    .slide.active { display: block; }
+
+    .section { background: #fff; padding: 15px; border-radius: 10px; }
+    .section h2 { margin-bottom: 10px; }
+    .quick-picks ul { list-style: none; }
+    .quick-picks li { margin-bottom: 8px; }
+    .categories-list { display: grid; gap: 15px; grid-template-columns: repeat(auto-fit,minmax(150px,1fr)); }
+    .categories-list .cat-card { background: #fff; padding: 10px; text-align: center; border-radius: 8px; cursor: pointer; }
+    .categories-list .cat-card img { width: 100%; height: 100px; object-fit: cover; border-radius: 6px; margin-bottom: 8px; }
+
+    footer { text-align: center; padding: 15px; background: #2c3e50; color: #fff; margin-top: 20px; }
+
+    @media(max-width: 768px) {
+      .nav-links, .search-box { display: none; }
+      .hamburger { display: flex; }
+      .mobile-menu.active { display: flex; }
+      .sidebar { order: 2; }
+      .content { order: 1; }
+      .main { flex-direction: column; }
+    }
+  </style>
 </head>
 <body>
+  <header>
+    <h1>Modexa</h1>
+    <p>Your Daily Dose of Lifestyle, Home & Tech Finds</p>
+  </header>
 
-<header>
-  <h1>Modexa</h1>
-  <p>Your Daily Dose of Lifestyle, Home & Tech Finds</p>
-</header>
+  <nav>
+    <div class="hamburger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </div>
+    <div class="nav-links">
+      <a href="homeglow.html">HomeGlow</a>
+      <a href="tech.html">Tech</a>
+      <a href="lifestyle.html">Lifestyle</a>
+      <a href="beauty.html">Beauty</a>
+      <a href="baby-kids.html">Baby &amp; Kids</a>
+      <a href="taste-tools.html">Taste &amp; Tools</a>
+    </div>
+    <div class="search-box"><input type="text" placeholder="Search products..."></div>
+  </nav>
 
-<nav>
-  <div class="hamburger" onclick="toggleMenu()">
-    <span></span><span></span><span></span>
+  <div class="mobile-menu" id="mobileMenu">
+    <input type="text" placeholder="Search products..." style="padding:5px;margin-bottom:10px;">
+    <a href="homeglow.html">HomeGlow</a>
+    <a href="tech.html">Tech</a>
+    <a href="lifestyle.html">Lifestyle</a>
+    <a href="beauty.html">Beauty</a>
+    <a href="baby-kids.html">Baby &amp; Kids</a>
+    <a href="taste-tools.html">Taste &amp; Tools</a>
   </div>
-  <div class="nav-links">
-    <a href="#categories">Categories</a>
-    <a href="#intro">About</a>
-    <a href="#top-article">Top Article</a>
-    <a href="#quick-picks">Quick Picks</a>
-  </div>
-  <div class="search-box">
-    <input type="text" placeholder="Search products..." id="searchInput">
-  </div>
-</nav>
 
-<div class="mobile-menu" id="mobileMenu">
-  <input type="text" placeholder="Search products..." style="padding:5px;">
-  <a href="#categories">Categories</a>
-  <a href="#intro">About</a>
-  <a href="#top-article">Top Article</a>
-  <a href="#quick-picks">Quick Picks</a>
-</div>
+  <div class="main">
+    <div class="content">
+      <div class="section">
+        <h2>Welcome to Modexa</h2>
+        <p>We personally review and recommend products to help you shop smart.</p>
+      </div>
 
-<div class="main">
-  <section class="content">
-    <div id="categories" class="section">
-      <h2>Categories</h2>
-      <div class="grid">
-        <div class="card"><img src="HomeGlow.jpg" alt=""><p>HomeGlow</p></div>
-        <div class="card"><img src="lifestyle.jpg" alt=""><p>Lifestyle</p></div>
-        <div class="card"><img src="tech.jpg" alt=""><p>Tech</p></div>
+      <div class="section quick-picks">
+        <h2>Quick Picks</h2>
+        <ul>
+          <li><a href="skincare-tools.html">Best Skincare Tools of 2025</a></li>
+          <li><a href="smart-home-essentials.html">Smart Home Essentials You Need</a></li>
+          <li><a href="gadgets-under-50.html">Coolest Gadgets Under $50</a></li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <h2>Top Categories</h2>
+        <div class="categories-list">
+          <div class="cat-card" onclick="location.href='homeglow.html'">
+            <img src="HomeGlow.jpg" alt="HomeGlow"><p>HomeGlow</p>
+          </div>
+          <div class="cat-card" onclick="location.href='tech.html'">
+            <img src="tech.jpg" alt="Tech"><p>Tech</p>
+          </div>
+          <div class="cat-card" onclick="location.href='lifestyle.html'">
+            <img src="lifestyle.jpg" alt="Lifestyle"><p>Lifestyle</p>
+          </div>
+          <div class="cat-card" onclick="location.href='beauty.html'">
+            <img src="beauty.jpg" alt="Beauty"><p>Beauty</p>
+          </div>
+          <div class="cat-card" onclick="location.href='baby-kids.html'">
+            <img src="baby-kids.jpg" alt="Baby & Kids"><p>Baby &amp; Kids</p>
+          </div>
+          <div class="cat-card" onclick="location.href='taste-tools.html'">
+            <img src="Taste-Tools.jpg" alt="Taste & Tools"><p>Taste &amp; Tools</p>
+          </div>
+        </div>
       </div>
     </div>
 
-    <div id="intro" class="section">
-      <h2>About Us</h2>
-      <p>We personally review products to help you make the best buying decisions.</p>
-    </div>
+    <aside class="sidebar">
+      <h3>Trending News</h3>
+      <div class="slideshow" id="slideshow">
+        <div class="slide active"><a href="#"><img src="news1.jpg" alt="News 1"></a></div>
+        <div class="slide"><a href="#"><img src="news2.jpg" alt="News 2"></a></div>
+        <div class="slide"><a href="#"><img src="news3.jpg" alt="News 3"></a></div>
+      </div>
+    </aside>
+  </div>
 
-    <div id="top-article" class="section">
-      <h2>Top Article</h2>
-      <p><a href="#">Click here to read our latest top-rated review</a></p>
-    </div>
+  <footer>
+    <p>&copy; 2025 Modexa. All rights reserved.</p>
+  </footer>
 
-    <div id="quick-picks" class="section">
-      <h2>Quick Picks</h2>
-      <ul>
-        <li><a href="#">Best Skincare Tools</a></li>
-        <li><a href="#">Smart Home Essentials</a></li>
-      </ul>
-    </div>
-  </section>
+  <script>
+    function toggleMenu() {
+      const m = document.getElementById("mobileMenu");
+      m.classList.toggle("active");
+    }
 
-  <aside class="sidebar">
-    <h3>Trending News</h3>
-    <div class="slideshow" id="slideshow">
-      <div class="slide active"><a href="#"><img src="slide1.jpg" alt="News 1"></a></div>
-      <div class="slide"><a href="#"><img src="slide2.jpg" alt="News 2"></a></div>
-      <div class="slide"><a href="#"><img src="slide3.jpg" alt="News 3"></a></div>
-    </div>
-  </aside>
-</div>
-
-<footer>
-  <p>&copy; 2025 Modexa. All rights reserved.</p>
-</footer>
-
-<script>
-  function toggleMenu() {
-    document.getElementById("mobileMenu").classList.toggle("active");
-    document.getElementById("mobileMenu").style.display =
-      document.getElementById("mobileMenu").style.display === "flex" ? "none" : "flex";
-  }
-
-  let slideIndex = 0;
-  const slides = document.querySelectorAll("#slideshow .slide");
-  setInterval(() => {
-    slides[slideIndex].classList.remove("active");
-    slideIndex = (slideIndex + 1) % slides.length;
-    slides[slideIndex].classList.add("active");
-  }, 5000);
-</script>
-
+    let slideIndex = 0;
+    const slides = document.querySelectorAll("#slideshow .slide");
+    setInterval(() => {
+      slides[slideIndex].classList.remove("active");
+      slideIndex = (slideIndex + 1) % slides.length;
+      slides[slideIndex].classList.add("active");
+    }, 5000);
+  </script>
 </body>
 </html>

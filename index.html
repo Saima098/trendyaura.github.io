@@ -1,403 +1,150 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Modexa - Lifestyle & Tech Finds</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Modexa - Lifestyle & Tech Finds</title>
+<link rel="icon" type="image/png" href="favicon.png">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', sans-serif; background-color: #f5f5f5; color: #333; }
 
-  <link rel="icon" href="favicon.png" sizes="32x32" />
-  <link rel="icon" href="favicon.png" sizes="16x16" />
-  <link rel="shortcut icon" href="favicon.png" />
+  /* HEADER */
+  header { background: linear-gradient(135deg, #2c3e50, #34495e); color: #fff; padding: 20px; text-align: center; }
+  header h1 { margin-bottom: 5px; }
+  header p { font-size: 1rem; }
 
-  <style>
-    * {
-      box-sizing: border-box;
-    }
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #f5f5f5;
-      color: #333;
-    }
-    /* Header */
-    header {
-      background: linear-gradient(135deg, #2c3e50, #34495e);
-      color: #fff;
-      padding: 20px 20px 10px;
-      text-align: center;
-    }
-    header h1 {
-      margin: 0;
-      font-size: 2.5rem;
-      letter-spacing: 1.5px;
-      font-weight: 700;
-    }
-    header p {
-      margin: 5px 0 0;
-      font-size: 1.1rem;
-      font-weight: 400;
-      opacity: 0.85;
-    }
+  /* NAVIGATION */
+  nav { background-color: #fff; border-bottom: 1px solid #eee; display: flex; align-items: center; justify-content: space-between; padding: 10px 15px; }
+  .nav-links { display: flex; gap: 12px; }
+  .nav-links a { padding: 8px 16px; border-radius: 20px; background: #eee; text-decoration: none; font-weight: 600; color: #2c3e50; }
+  .nav-links a:hover { background: #e74c3c; color: #fff; }
+  .search-box input { padding: 5px 10px; border-radius: 15px; border: 1px solid #ccc; }
 
-    /* Navigation */
-    nav {
-      background: #fff;
-      display: flex;
-      justify-content: center;
-      border-bottom: 1px solid #eee;
-      user-select: none;
-      font-weight: 600;
-      font-size: 1rem;
-    }
-    nav ul {
-      margin: 0;
-      padding: 0;
-      list-style: none;
-      display: flex;
-      gap: 20px;
-    }
-    nav li {
-      position: relative;
-    }
-    nav > ul > li > a {
-      display: block;
-      padding: 18px 15px;
-      color: #2c3e50;
-      text-decoration: none;
-      white-space: nowrap;
-      border-bottom: 3px solid transparent;
-      transition: color 0.3s, border-color 0.3s;
-    }
-    nav > ul > li > a:hover,
-    nav > ul > li:hover > a {
-      color: #e74c3c;
-      border-color: #e74c3c;
-    }
+  /* HAMBURGER */
+  .hamburger { display: none; flex-direction: column; cursor: pointer; }
+  .hamburger span { height: 3px; width: 25px; background: #333; margin: 4px 0; border-radius: 2px; }
+  .mobile-menu { display: none; flex-direction: column; gap: 10px; padding: 10px; background: #fff; }
+  .mobile-menu a { padding: 8px; border-radius: 8px; background: #eee; color: #2c3e50; text-decoration: none; }
 
-    /* Dropdown menu */
-    nav li ul {
-      display: none;
-      position: absolute;
-      top: 100%;
-      left: 0;
-      background: white;
-      box-shadow: 0 3px 8px rgba(0,0,0,0.15);
-      border-radius: 6px;
-      min-width: 180px;
-      z-index: 999;
-      padding: 8px 0;
-    }
-    nav li:hover > ul {
-      display: block;
-    }
-    nav li ul li a {
-      padding: 10px 16px;
-      color: #2c3e50;
-      font-weight: 500;
-      display: block;
-      white-space: nowrap;
-      transition: background-color 0.3s;
-      border-bottom: none;
-    }
-    nav li ul li a:hover {
-      background-color: #f7f7f7;
-      color: #e74c3c;
-    }
+  /* MAIN */
+  .main { max-width: 1200px; margin: auto; display: flex; flex-wrap: wrap; gap: 20px; padding: 20px; }
+  .content { flex: 3; display: flex; flex-direction: column; gap: 20px; }
+  .sidebar { flex: 1; background: #f0f8ff; padding: 10px; border-radius: 10px; }
 
-    /* Main container */
-    .main {
-      max-width: 1200px;
-      margin: 40px auto;
-      padding: 0 20px;
-      display: flex;
-      gap: 30px;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
+  /* SLIDESHOW */
+  .slideshow { position: relative; width: 100%; overflow: hidden; border-radius: 10px; }
+  .slide { display: none; }
+  .slide img { width: 100%; display: block; border-radius: 10px; }
+  .slide.active { display: block; }
 
-    /* Quick Picks sidebar */
-    .sidebar {
-      flex: 1 1 280px;
-      background-color: #f0f8ff;
-      padding: 25px 20px;
-      border-radius: 10px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-      min-width: 280px;
-    }
-    .sidebar h3 {
-      margin-top: 0;
-      font-weight: 700;
-      font-size: 1.3rem;
-      color: #2c3e50;
-      margin-bottom: 15px;
-    }
-    .sidebar ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-    .sidebar li {
-      margin-bottom: 12px;
-    }
-    .sidebar a {
-      color: #007bff;
-      text-decoration: underline;
-      font-weight: 600;
-      transition: color 0.3s;
-    }
-    .sidebar a:hover {
-      color: #e74c3c;
-    }
+  /* SECTION */
+  .section { background: #fff; padding: 20px; border-radius: 10px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 20px; }
+  .card { background: #fff; padding: 15px; border-radius: 10px; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+  .card img { width: 100%; height: 120px; object-fit: contain; border-radius: 8px; }
 
-    /* Categories grid */
-    .categories-grid {
-      flex: 3 1 700px;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 25px;
-    }
-    .category-card {
-      background: white;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.07);
-      text-align: center;
-      position: relative;
-      cursor: pointer;
-      transition: box-shadow 0.3s;
-    }
-    .category-card:hover {
-      box-shadow: 0 6px 20px rgba(231, 76, 60, 0.3);
-    }
-    .category-card img {
-      width: 100%;
-      height: 130px;
-      object-fit: contain;
-      margin-bottom: 12px;
-      border-radius: 8px;
-      background-color: #fff;
-    }
-    .category-card > p {
-      font-weight: 700;
-      color: #2c3e50;
-      font-size: 1.15rem;
-      margin: 0;
-      user-select: none;
-    }
+  /* FOOTER */
+  footer { text-align: center; padding: 20px; background: #2c3e50; color: #fff; margin-top: 20px; }
 
-    /* Dropdown sub-links inside category cards on hover */
-    .category-dropdown {
-      display: none;
-      position: absolute;
-      top: 100%;
-      left: 50%;
-      transform: translateX(-50%);
-      background: white;
-      border-radius: 8px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-      padding: 10px 0;
-      min-width: 200px;
-      z-index: 1000;
-    }
-    .category-card:hover .category-dropdown {
-      display: block;
-    }
-    .category-dropdown a {
-      display: block;
-      padding: 10px 20px;
-      color: #2c3e50;
-      font-weight: 600;
-      text-decoration: none;
-      white-space: nowrap;
-      transition: background-color 0.25s ease;
-    }
-    .category-dropdown a:hover {
-      background-color: #f5f5f5;
-      color: #e74c3c;
-    }
-
-    /* Footer */
-    footer {
-      text-align: center;
-      padding: 25px 20px;
-      background: #2c3e50;
-      color: #fff;
-      margin-top: 50px;
-      font-size: 0.9rem;
-    }
-    footer a {
-      color: #e74c3c;
-      text-decoration: none;
-      margin: 0 8px;
-      font-weight: 600;
-    }
-    footer a:hover {
-      text-decoration: underline;
-    }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-      nav > ul {
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 10px;
-      }
-      .main {
-        flex-direction: column;
-        margin: 20px auto;
-      }
-      .sidebar, .categories-grid {
-        flex: 1 1 100%;
-        min-width: auto;
-      }
-      .category-dropdown {
-        position: static;
-        transform: none;
-        box-shadow: none;
-        padding: 0;
-        display: none !important; /* Disable dropdown on mobile */
-      }
-      .category-card:hover .category-dropdown {
-        display: none !important;
-      }
-    }
-  </style>
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .nav-links, .search-box { display: none; }
+    .hamburger { display: flex; }
+    .sidebar { order: 2; }
+    .content { order: 1; }
+  }
+</style>
 </head>
 <body>
 
-  <header>
-    <h1>Modexa</h1>
-    <p>Your Daily Dose of Lifestyle, Home & Tech Finds</p>
-  </header>
+<header>
+  <h1>Modexa</h1>
+  <p>Your Daily Dose of Lifestyle, Home & Tech Finds</p>
+</header>
 
-  <nav>
-    <ul>
-      <li>
-        <a href="homeglow.html">HomeGlow</a>
-        <ul>
-          <li><a href="positive-vibes.html">Positive Vibes at Home</a></li>
-          <li><a href="budgetdecor.html">Luxury Looks for Less</a></li>
-          <li><a href="decorgarden.html">Decor & Garden Picks</a></li>
-          <li><a href="Organizingclothes.html">Clothes Storage & Organization</a></li>
-        </ul>
-      </li>
-      <li>
-        <a href="lifestyle.html">Lifestyle</a>
-        <ul>
-          <li><a href="wellbeing.html">Wellbeing & Self-Care</a></li>
-          <li><a href="routine.html">Routine Essentials</a></li>
-          <li><a href="weightlose.html">Lose 7lbs in 30 Days</a></li>
-          <li><a href="mummytommy.html">Fix Mummy Tummy Naturally</a></li>
-        </ul>
-      </li>
-      <li>
-        <a href="tech.html">Tech</a>
-        <ul>
-          <li><a href="study.html">Study Smart with AI</a></li>
-          <li><a href="smart-home-essentials.html">Smart Living</a></li>
-          <li><a href="games.html">Best Game Controllers</a></li>
-        </ul>
-      </li>
-      <li>
-        <a href="taste-tools.html">Taste & Tools</a>
-        <ul>
-          <li><a href="kitchen-tools.html">Kitchen Tools</a></li>
-          <li><a href="recipes.html">Quick Recipes</a></li>
-          <li><a href="diet.html">Best Diet for Weight Loss</a></li>
-        </ul>
-      </li>
-      <li>
-        <a href="beauty.html">Beauty</a>
-        <ul>
-          <li><a href="skincare.html">Skincare Picks</a></li>
-          <li><a href="haircare.html">Best Hair Tools</a></li>
-          <li><a href="skincare-tools.html">2025's Best Skincare Tools</a></li>
-          <li><a href="glassskin.html">DIY Glass Skin Routine</a></li>
-          <li><a href="Thinhair.html">Hair Loss Treatment</a></li>
-          <li><a href="redlight.html">Red Light Glow</a></li>
-        </ul>
-      </li>
-      <li>
-        <a href="bestpickid.html">Kids</a>
-      </li>
-    </ul>
-  </nav>
+<nav>
+  <div class="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+  <div class="nav-links">
+    <a href="#categories">Categories</a>
+    <a href="#intro">About</a>
+    <a href="#top-article">Top Article</a>
+    <a href="#quick-picks">Quick Picks</a>
+  </div>
+  <div class="search-box">
+    <input type="text" placeholder="Search products..." id="searchInput">
+  </div>
+</nav>
 
-  <main class="main">
-    <aside class="sidebar">
-      <h3>Quick Picks</h3>
+<div class="mobile-menu" id="mobileMenu">
+  <input type="text" placeholder="Search products..." style="padding:5px;">
+  <a href="#categories">Categories</a>
+  <a href="#intro">About</a>
+  <a href="#top-article">Top Article</a>
+  <a href="#quick-picks">Quick Picks</a>
+</div>
+
+<div class="main">
+  <section class="content">
+    <div id="categories" class="section">
+      <h2>Categories</h2>
+      <div class="grid">
+        <div class="card"><img src="HomeGlow.jpg" alt=""><p>HomeGlow</p></div>
+        <div class="card"><img src="lifestyle.jpg" alt=""><p>Lifestyle</p></div>
+        <div class="card"><img src="tech.jpg" alt=""><p>Tech</p></div>
+      </div>
+    </div>
+
+    <div id="intro" class="section">
+      <h2>About Us</h2>
+      <p>We personally review products to help you make the best buying decisions.</p>
+    </div>
+
+    <div id="top-article" class="section">
+      <h2>Top Article</h2>
+      <p><a href="#">Click here to read our latest top-rated review</a></p>
+    </div>
+
+    <div id="quick-picks" class="section">
+      <h2>Quick Picks</h2>
       <ul>
-        <li><a href="skincare-tools.html">✨ Best Skincare Tools of 2025</a></li>
-        <li><a href="smart-home-essentials.html">🪄 Smart Home Essentials You Need</a></li>
-        <li><a href="gadgets-under-50.html">🎧 Coolest Gadgets Under $50</a></li>
+        <li><a href="#">Best Skincare Tools</a></li>
+        <li><a href="#">Smart Home Essentials</a></li>
       </ul>
-    </aside>
+    </div>
+  </section>
 
-    <section class="categories-grid">
-      <div class="category-card">
-        <img src="HomeGlow.jpg" alt="HomeGlow" />
-        <p>HomeGlow</p>
-        <div class="category-dropdown">
-          <a href="positive-vibes.html">Positive Vibes at Home</a>
-          <a href="budgetdecor.html">Luxury Looks for Less</a>
-          <a href="decorgarden.html">Decor & Garden Picks</a>
-          <a href="Organizingclothes.html">Clothes Storage & Organization</a>
-        </div>
-      </div>
-      <div class="category-card">
-        <img src="lifestyle.jpg" alt="Lifestyle" />
-        <p>Lifestyle</p>
-        <div class="category-dropdown">
-          <a href="wellbeing.html">Wellbeing & Self-Care</a>
-          <a href="routine.html">Routine Essentials</a>
-          <a href="weightlose.html">Lose 7lbs in 30 Days</a>
-          <a href="mummytommy.html">Fix Mummy Tummy Naturally</a>
-        </div>
-      </div>
-      <div class="category-card">
-        <img src="tech.jpg" alt="Tech" />
-        <p>Tech</p>
-        <div class="category-dropdown">
-          <a href="study.html">Study Smart with AI</a>
-          <a href="smart-home-essentials.html">Smart Living</a>
-          <a href="games.html">Best Game Controllers</a>
-        </div>
-      </div>
-      <div class="category-card">
-        <img src="Taste-Tools.jpg" alt="Taste & Tools" />
-        <p>Taste & Tools</p>
-        <div class="category-dropdown">
-          <a href="kitchen-tools.html">Kitchen Tools</a>
-          <a href="recipes.html">Quick Recipes</a>
-          <a href="diet.html">Best Diet for Weight Loss</a>
-        </div>
-      </div>
-      <div class="category-card">
-        <img src="beauty.jpg" alt="Beauty" />
-        <p>Beauty</p>
-        <div class="category-dropdown">
-          <a href="skincare.html">Skincare Picks</a>
-          <a href="haircare.html">Best Hair Tools</a>
-          <a href="skincare-tools.html">2025's Best Skincare Tools</a>
-          <a href="glassskin.html">DIY Glass Skin Routine</a>
-          <a href="Thinhair.html">Hair Loss Treatment</a>
-          <a href="redlight.html">Red Light Glow</a>
-        </div>
-      </div>
-      <div class="category-card">
-        <img src="pictoday.jpg" alt="Kids" />
-        <p><a href="bestpickid.html" style="color:#2c3e50; text-decoration:none; font-weight:700;">Kids</a></p>
-      </div>
-    </section>
-  </main>
+  <aside class="sidebar">
+    <h3>Trending News</h3>
+    <div class="slideshow" id="slideshow">
+      <div class="slide active"><a href="#"><img src="slide1.jpg" alt="News 1"></a></div>
+      <div class="slide"><a href="#"><img src="slide2.jpg" alt="News 2"></a></div>
+      <div class="slide"><a href="#"><img src="slide3.jpg" alt="News 3"></a></div>
+    </div>
+  </aside>
+</div>
 
-  <footer>
-    <p>&copy; 2025 Modexa. All rights reserved.</p>
-    <a href="media-kit.html">Media Kit</a> |
-    <a href="terms-of-service.html" target="_blank" rel="noopener noreferrer">Terms of Service</a> |
-    <a href="privacy-policy.html" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
-  </footer>
+<footer>
+  <p>&copy; 2025 Modexa. All rights reserved.</p>
+</footer>
+
+<script>
+  function toggleMenu() {
+    document.getElementById("mobileMenu").classList.toggle("active");
+    document.getElementById("mobileMenu").style.display =
+      document.getElementById("mobileMenu").style.display === "flex" ? "none" : "flex";
+  }
+
+  let slideIndex = 0;
+  const slides = document.querySelectorAll("#slideshow .slide");
+  setInterval(() => {
+    slides[slideIndex].classList.remove("active");
+    slideIndex = (slideIndex + 1) % slides.length;
+    slides[slideIndex].classList.add("active");
+  }, 5000);
+</script>
 
 </body>
 </html>

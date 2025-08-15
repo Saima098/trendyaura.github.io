@@ -1,233 +1,559 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Modexa - Lifestyle & Tech Finds</title>
-<link rel="icon" href="favicon.png" sizes="32x32">
+<link rel="icon" type="image/png" href="favicon.png">
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f5f5f5; color: #333; }
+  /* ---------- Base ---------- */
+  *, *::before, *::after { box-sizing: border-box; }
+  :root{
+    --brand-dark:#2c3e50;
+    --brand-dark-2:#34495e;
+    --brand-accent:#e67e22;
+    --muted:#f5f5f5;
+    --card:#ffffff;
+    --border:#eaeaea;
+    --shadow:0 2px 10px rgba(0,0,0,.06);
+    --radius:12px;
+    --pad:20px;
+    --z-utility:1002;
+    --z-nav:1001;
+  }
+  body{
+    margin:0;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background:var(--muted);
+    color:#333;
+  }
+  a{ color:inherit; text-decoration:none; }
+  img{ max-width:100%; display:block; }
 
-  /* Utility bar */
-  .utility-bar { background: #2c3e50; color: white; padding: 6px 20px; display: flex; justify-content: flex-start; align-items: center; font-size: 0.9rem; position: sticky; top: 0; z-index: 1001; }
-  .language-toggle a { color: white; margin-right: 10px; text-decoration: none; font-weight: 600; }
-  .language-toggle a.active { text-decoration: underline; }
+  /* ---------- Utility Bar ---------- */
+  .utility-bar{
+    position:sticky; top:0; z-index:var(--z-utility);
+    background:var(--brand-dark); color:#fff;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:8px 16px; border-bottom:1px solid rgba(255,255,255,.08);
+  }
+  .language-toggle{ display:flex; gap:10px; align-items:center; }
+  .language-toggle a{ color:#fff; font-weight:600; opacity:.9; }
+  .language-toggle a.active{ text-decoration:underline; opacity:1; }
 
-  /* Header */
-  header { background: linear-gradient(135deg, #2c3e50, #34495e); color: white; padding: 20px; text-align: center; }
-  header h1 { font-size: 2.4rem; margin-bottom: 6px; }
-  header p { font-size: 1.05rem; }
+  /* ---------- Header ---------- */
+  header{ background:linear-gradient(135deg, var(--brand-dark), var(--brand-dark-2));
+    color:#fff; text-align:center; padding:22px 16px; }
+  header h1{ margin:0 0 6px; font-size:2.1rem; }
+  header p{ margin:0; opacity:.95; }
 
-  /* Navigation */
-  nav { background: #fff; display: flex; justify-content: space-between; align-items: center; padding: 10px 15px; border-bottom: 1px solid #eee; position: sticky; top: 40px; z-index: 1000; } /* lowered under utility-bar */
-  .nav-left { display: flex; gap: 15px; align-items: center; flex-wrap: wrap; }
-  .nav-left a { position: relative; text-decoration: none; color: #2c3e50; font-weight: 600; padding: 6px 10px; border-radius: 5px; }
-  .nav-left a:hover { background: #e74c3c; color: white; }
-  .dropdown { display: none; position: absolute; top: 100%; left: 0; background: white; border: 1px solid #ccc; border-radius: 6px; min-width: 160px; box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
-  .dropdown a { display: block; padding: 8px 10px; color: #2c3e50; text-decoration: none; }
-  .dropdown a:hover { background: #f5f5f5; }
-  .nav-item:hover .dropdown { display: block; }
+  /* ---------- Nav ---------- */
+  .nav-wrap{
+    position:sticky; top:48px; /* sits under utility bar */
+    z-index:var(--z-nav);
+    background:#fff; border-bottom:1px solid var(--border);
+  }
+  nav{
+    max-width:1200px; margin:0 auto; padding:10px 12px;
+    display:flex; align-items:center; gap:14px;
+  }
+  /* Hamburger (mobile) */
+  .hamburger{ display:none; margin-left:auto; cursor:pointer; }
+  .hamburger span{ display:block; width:26px; height:3px; background:var(--brand-dark); margin:5px 0; }
+  /* Categories row */
+  .nav-left{ display:flex; gap:6px; flex-wrap:wrap; align-items:center; }
+  .nav-item{ position:relative; }
+  .nav-item > a{
+    display:block; padding:8px 10px; border-radius:8px; font-weight:600; color:var(--brand-dark);
+  }
+  .nav-item > a:hover{ background:#f0f0f0; }
+  /* Dropdowns positioned under their own category */
+  .dropdown{
+    display:none; position:absolute; top:100%; left:0;
+    background:#fff; border:1px solid var(--border); border-radius:10px;
+    min-width:200px; box-shadow:var(--shadow); overflow:hidden;
+  }
+  .dropdown a{ display:block; padding:10px 12px; color:#2c3e50; }
+  .dropdown a:hover{ background:#f7f7f7; }
+  .nav-item:hover .dropdown{ display:block; }
 
-  /* Search */
-  .search-bar { margin-left: auto; }
-  .search-bar input { padding: 6px 10px; border-radius: 20px; border: 1px solid #ccc; outline: none; }
-  
-  /* Hamburger */
-  .hamburger { display: none; flex-direction: column; cursor: pointer; gap: 4px; margin-right: 10px; }
-  .hamburger div { width: 24px; height: 3px; background: #2c3e50; }
-  @media (max-width: 768px) {
-    .nav-left { display: none; position: absolute; top: 100%; left: 0; background: white; width: 100%; flex-direction: column; border-top: 1px solid #eee; }
-    nav.active .nav-left { display: flex; }
-    .search-bar { width: 100%; padding: 10px 15px; }
-    .search-bar input { width: 100%; }
-    .hamburger { display: flex; }
+  /* Desktop search (inside nav) */
+  .search-bar{
+    margin-left:auto; display:flex; align-items:center; gap:8px;
+  }
+  .search-bar input{
+    width:280px; max-width:36vw;
+    padding:9px 14px; border:1px solid #ccc; border-radius:999px; outline:none;
   }
 
-  /* Layout */
-  .main { max-width: 1200px; margin: 20px auto; display: flex; flex-wrap: wrap; gap: 20px; padding: 0 15px; }
-  .featured { flex: 3; min-width: 300px; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-  .featured img { width: 100%; border-radius: 8px; margin-bottom: 12px; }
+  /* ---------- Mobile search (always visible) ---------- */
+  .mobile-search{
+    display:none; background:#fff; border-bottom:1px solid var(--border);
+  }
+  .mobile-search .inner{
+    max-width:1200px; margin:0 auto; padding:10px 12px;
+  }
+  .mobile-search input{
+    width:100%; padding:11px 14px; border:1px solid #ccc; border-radius:999px; outline:none;
+  }
 
-  /* News carousel sidebar */
-  .sidebar { flex: 1; min-width: 250px; background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: relative; }
-  .slide { display: none; position: relative; }
-  .slide img { width: 100%; height: auto; display: block; }
-  .slide .caption { position: absolute; bottom: 0; width: 100%; background: rgba(255,255,255,0.8); padding: 8px; font-weight: 600; }
+  /* ---------- Main Layout ---------- */
+  .main{
+    max-width:1200px; margin:20px auto; padding:0 12px;
+    display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:20px;
+  }
+  /* Featured article */
+  .featured{
+    background:var(--card); border-radius:var(--radius); box-shadow:var(--shadow);
+    padding:var(--pad);
+  }
+  .featured img{ border-radius:10px; margin-bottom:12px; }
+  .featured h2{ margin:2px 0 8px; font-size:1.6rem; }
+  .featured p{ margin:0 0 10px; line-height:1.5; color:#555; }
+  .featured .cta{ color:var(--brand-accent); font-weight:700; }
 
-  /* Category Sections */
-  .category-section { background: white; margin-bottom: 20px; padding: 20px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-  .category-section h2 { margin-bottom: 15px; }
-  .subcategory-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(150px,1fr)); gap: 15px; }
-  .subcategory-card { background: #f0f8ff; padding: 15px; border-radius: 8px; text-align: center; transition: background 0.3s, color 0.3s; cursor: pointer; }
-  .subcategory-card:hover { background: #e67e22; color: white; }
-  .subcategory-card img { width: 100%; height: 100px; object-fit: cover; border-radius: 6px; margin-bottom: 8px; }
-  .subcategory-card a { text-decoration: none; font-weight: 600; color: inherit; display: block; }
+  /* Right News Rail (auto-rotating) */
+  .news-rail{
+    background:#fff; border-radius:var(--radius); box-shadow:var(--shadow);
+    overflow:hidden; display:flex; flex-direction:column;
+  }
+  .news-header{ padding:10px 14px; border-bottom:1px solid var(--border); font-weight:700; color:#111; }
+  .news-slides{ position:relative; }
+  .news-slide{ display:none; }
+  .news-slide.active{ display:block; }
+  .news-card{ display:block; color:#111; }
+  .news-card img{ width:100%; height:180px; object-fit:cover; }
+  .news-card .meta{ padding:10px 12px; }
+  .news-card h4{ margin:0 0 6px; font-size:1rem; line-height:1.35; }
+  .news-card p{ margin:0; color:#666; font-size:.92rem; line-height:1.45; }
 
-  footer { text-align: center; padding: 20px; background: #2c3e50; color: white; margin-top: 30px; }
-  footer a { color: #fff; text-decoration: underline; margin: 0 5px; }
+  /* ---------- Sections (Guides, Quick Picks, Categories) ---------- */
+  .section{ max-width:1200px; margin:20px auto; padding:0 12px; }
+  .section-card{
+    background:#fff; border-radius:var(--radius); box-shadow:var(--shadow); padding:var(--pad);
+  }
+  .section h2{ margin:0 0 12px; font-size:1.4rem; }
+  .cards{
+    display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));
+    gap:16px;
+  }
+  .card{
+    background:#f8fbff; border:1px solid var(--border);
+    border-radius:10px; overflow:hidden; transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .card:hover{ transform:translateY(-2px); box-shadow:var(--shadow); }
+  .card img{ width:100%; height:140px; object-fit:cover; }
+  .card .content{ padding:12px; }
+  .card .content h3{ margin:0 0 6px; font-size:1.06rem; }
+  .card .content p{ margin:0; color:#666; font-size:.94rem; }
 
-  @media (max-width: 768px) {
-    .main { flex-direction: column; }
+  /* Category sections (grids of subcategory blocks) */
+  .category-section{ max-width:1200px; margin:20px auto; padding:0 12px; }
+  .category-card{
+    background:#fff; border-radius:var(--radius); box-shadow:var(--shadow); padding:var(--pad);
+  }
+  .category-title{ margin:0 0 12px; font-size:1.35rem; }
+  .subcategory-grid{
+    display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr));
+    gap:16px;
+  }
+  .subcategory{
+    background:#f0f8ff; border:1px solid var(--border); border-radius:10px; overflow:hidden;
+  }
+  .subcategory a{ display:block; }
+  .subcategory img{ width:100%; height:120px; object-fit:cover; }
+  .subcategory h4{ margin:8px 10px 12px; font-size:1rem; }
+
+  /* ---------- Footer ---------- */
+  footer{
+    margin-top:30px; background:var(--brand-dark); color:#fff; text-align:center;
+    padding:18px 12px;
+  }
+  footer a{ color:#fff; text-decoration:underline; }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 1024px){
+    .news-card img{ height:160px; }
+  }
+  @media (max-width: 900px){
+    .search-bar input{ width:220px; }
+  }
+  @media (max-width: 768px){
+    /* Hamburger visible */
+    .hamburger{ display:block; }
+    /* Hide desktop cats row by default; show when nav is active */
+    .nav-left{ display:none; flex-direction:column; width:100%; padding-top:8px; }
+    .nav-left.open{ display:flex; }
+    .nav-item > a{ padding:10px 6px; border-radius:8px; }
+    /* Drop downs behave as collapsible lists on mobile */
+    .dropdown{ position:static; display:none; border:0; box-shadow:none; border-left:3px solid #eee; margin:4px 0 10px 10px; }
+    .nav-item.open .dropdown{ display:block; }
+
+    /* Hide desktop search, show mobile search under nav */
+    .search-bar{ display:none; }
+    .mobile-search{ display:block; }
+
+    /* Keep two columns (main + right rail) even on mobile as requested */
+    .main{
+      grid-template-columns:minmax(0, 1fr) 44vw; /* left content + right narrow rail */
+      gap:12px;
+    }
+    .news-card img{ height:140px; }
+    /* Make sticky feel nicer on small screens */
+    .nav-wrap{ top:42px; }
   }
 </style>
 </head>
 <body>
 
+<!-- Utility bar -->
 <div class="utility-bar">
   <div class="language-toggle">
-    <a href="#" class="active">English</a> | <a href="#">Arabic</a>
+    <a href="#" class="active" id="lang-en">English</a>
+    <span>|</span>
+    <a href="#" id="lang-ar">العربية</a>
   </div>
+  <!-- Right slot (kept empty so hamburger on nav aligns right on mobile) -->
+  <div style="width:26px;height:1px;"></div>
 </div>
 
+<!-- Site header -->
 <header>
   <h1>Modexa</h1>
   <p>Your Daily Dose of Lifestyle, Home & Tech Finds</p>
 </header>
 
-<nav>
-  <div class="hamburger" onclick="toggleMenu()">
-    <div></div><div></div><div></div>
-  </div>
-  <div class="nav-left">
-    <div class="nav-item"><a href="#homeglow">HomeGlow</a>
-      <div class="dropdown">
-        <a href="positive-vibes.html">Positive Vibes at Home</a>
-        <a href="budgetdecor.html">Luxury Looks for Less</a>
-        <a href="decorgarden.html">Decor & Garden Picks</a>
-        <a href="Organizingclothes.html">Clothes Storage & Organization</a>
+<!-- Main nav (sticky) -->
+<div class="nav-wrap">
+  <nav>
+    <!-- Left: categories -->
+    <div class="nav-left" id="navCats">
+      <!-- HomeGlow -->
+      <div class="nav-item">
+        <a href="#homeglow">HomeGlow</a>
+        <div class="dropdown">
+          <a href="positive-vibes.html">Positive Vibes at Home</a>
+          <a href="budgetdecor.html">Luxury Looks for Less</a>
+          <a href="decorgarden.html">Decor & Garden Picks</a>
+          <a href="Organizingclothes.html">Clothes Storage & Organization</a>
+        </div>
+      </div>
+      <!-- Tech -->
+      <div class="nav-item">
+        <a href="#tech">Tech</a>
+        <div class="dropdown">
+          <a href="study.html">Study Smart with AI</a>
+          <a href="smart-home-essentials.html">Smart Living</a>
+          <a href="games.html">Best Game Controllers</a>
+        </div>
+      </div>
+      <!-- Lifestyle -->
+      <div class="nav-item">
+        <a href="#lifestyle">Lifestyle</a>
+        <div class="dropdown">
+          <a href="wellbeing.html">Wellbeing & Self-Care</a>
+          <a href="routine.html">Routine Essentials</a>
+          <a href="weightlose.html">Lose 7lbs in 30 Days</a>
+          <a href="mummytommy.html">Fix Mummy Tummy Naturally</a>
+        </div>
+      </div>
+      <!-- Beauty -->
+      <div class="nav-item">
+        <a href="#beauty">Beauty</a>
+        <div class="dropdown">
+          <a href="skincare.html">Skincare Picks</a>
+          <a href="haircare.html">Best Hair Tools</a>
+          <a href="skincare-tools.html">2025's Best Skincare Tools</a>
+          <a href="glassskin.html">DIY Glass Skin</a>
+          <a href="Thinhair.html">Hair Loss Treatment</a>
+          <a href="redlight.html">Red Light Glow</a>
+        </div>
+      </div>
+      <!-- Baby & Kids -->
+      <div class="nav-item">
+        <a href="#baby-kids">Baby & Kids</a>
+        <div class="dropdown">
+          <a href="bestpickid.html">Best Picks to Buy for Kids</a>
+        </div>
+      </div>
+      <!-- Taste & Tools -->
+      <div class="nav-item">
+        <a href="#taste-tools">Taste & Tools</a>
+        <div class="dropdown">
+          <a href="kitchen-tools.html">Kitchen Tools</a>
+          <a href="recipes.html">Quick Recipes</a>
+          <a href="diet.html">Best Diet for Weight Loss</a>
+        </div>
+      </div>
+      <!-- Deals -->
+      <div class="nav-item">
+        <a href="#deals">Deals</a>
+        <div class="dropdown">
+          <a href="deals.html">Latest Deals</a>
+          <a href="gadgets-under-50.html">Gadgets Under $50</a>
+        </div>
       </div>
     </div>
-    <div class="nav-item"><a href="#tech">Tech</a>
-      <div class="dropdown">
-        <a href="study.html">Study Smart with AI</a>
-        <a href="smart-home-essentials.html">Smart Living</a>
-        <a href="games.html">Best Game Controllers</a>
-      </div>
-    </div>
-    <div class="nav-item"><a href="#lifestyle">Lifestyle</a>
-      <div class="dropdown">
-        <a href="wellbeing.html">Wellbeing & Self-Care</a>
-        <a href="routine.html">Routine Essentials</a>
-        <a href="weightlose.html">Lose 7lbs in 30 Days</a>
-      </div>
-    </div>
-    <div class="nav-item"><a href="#beauty">Beauty</a>
-      <div class="dropdown">
-        <a href="skincare.html">Skincare Picks</a>
-        <a href="haircare.html">Best Hair Tools</a>
-        <a href="glassskin.html">DIY Glass Skin</a>
-      </div>
-    </div>
-    <div class="nav-item"><a href="#baby-kids">Baby & Kids</a>
-      <div class="dropdown">
-        <a href="bestpickid.html">Best Picks for Kids</a>
-      </div>
-    </div>
-    <div class="nav-item"><a href="#taste-tools">Taste & Tools</a>
-      <div class="dropdown">
-        <a href="kitchen-tools.html">Kitchen Tools</a>
-        <a href="recipes.html">Quick Recipes</a>
-        <a href="diet.html">Best Diet Tips</a>
-      </div>
-    </div>
-    <div class="nav-item"><a href="#deals">Deals</a>
-      <div class="dropdown">
-        <a href="deals.html">Latest Deals</a>
-      </div>
-    </div>
-    <div class="search-bar">
-      <input type="text" placeholder="Search..." />
-    </div>
-  </div>
-</nav>
 
-<main class="main">
-  <div class="featured">
-    <img src="featured-homeoffice.jpg" alt="Featured Article">
-    <h2>Minimalist Home Office Essentials</h2>
-    <p>Upgrade your workspace with our top picks for sleek, functional, and affordable home office gear.</p>
-    <a href="featured-homeoffice.html" style="color:#e67e22;font-weight:600;">Read More</a>
+    <!-- Desktop search -->
+    <div class="search-bar" id="desktopSearch">
+      <input type="search" placeholder="Search products, guides…" aria-label="Search">
+    </div>
+
+    <!-- Mobile hamburger -->
+    <div class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="navCats">
+      <span></span><span></span><span></span>
+    </div>
+  </nav>
+</div>
+
+<!-- Mobile search (always visible, below nav) -->
+<div class="mobile-search">
+  <div class="inner">
+    <input type="search" placeholder="Search products, guides…" aria-label="Mobile Search">
   </div>
-  <aside class="sidebar">
-    <div class="slide">
-      <img src="news1.jpg" alt="News 1">
-      <div class="caption">Smart Thermostats Save Energy</div>
-    </div>
-    <div class="slide">
-      <img src="news2.jpg" alt="News 2">
-      <div class="caption">Minimalist Home Office Setup</div>
-    </div>
-    <div class="slide">
-      <img src="news3.jpg" alt="News 3">
-      <div class="caption">Cool Gadgets Under $50</div>
+</div>
+
+<!-- Main area: Featured + News rail -->
+<main class="main">
+  <section class="featured">
+    <img src="featured-homeoffice.jpg" alt="Minimalist Home Office Essentials (placeholder)">
+    <h2>Minimalist Home Office Essentials</h2>
+    <p>Upgrade your workspace with sleek, functional, and affordable picks—chairs, lamps, laptop stands, and organizers we actually like.</p>
+    <a class="cta" href="featured-homeoffice.html">Read More →</a>
+  </section>
+
+  <aside class="news-rail" aria-label="Latest">
+    <div class="news-header">Latest</div>
+    <div class="news-slides" id="newsSlides">
+      <div class="news-slide active">
+        <a class="news-card" href="smart-thermostats.html">
+          <img src="news1.jpg" alt="Smart Thermostats Save Energy (placeholder)">
+          <div class="meta">
+            <h4>Smart Thermostats: Save Energy Without Sacrificing Comfort</h4>
+            <p>Updated Aug 11, 2025 · Our top pick makes HVAC more efficient.</p>
+          </div>
+        </a>
+      </div>
+      <div class="news-slide">
+        <a class="news-card" href="video-doorbells.html">
+          <img src="news2.jpg" alt="Video Doorbells (placeholder)">
+          <div class="meta">
+            <h4>Stop Surprise Pop-Bys: A Video Doorbell Screens Visitors</h4>
+            <p>Updated Aug 8, 2025 · Keep tabs on deliveries and unwanted guests.</p>
+          </div>
+        </a>
+      </div>
+      <div class="news-slide">
+        <a class="news-card" href="budget-bed-frames.html">
+          <img src="news3.jpg" alt="Budget Bed Frames (placeholder)">
+          <div class="meta">
+            <h4>The Best Budget Bed Frames That Don’t Wobble</h4>
+            <p>Updated Aug 8, 2025 · Affordable frames that still look great.</p>
+          </div>
+        </a>
+      </div>
     </div>
   </aside>
 </main>
 
+<!-- Guides (after main articles) -->
+<section class="section">
+  <div class="section-card">
+    <h2>Guides</h2>
+    <div class="cards">
+      <a class="card" href="minimalist-home-office.html">
+        <img src="guide-homeoffice.jpg" alt="Minimalist Home Office (placeholder)">
+        <div class="content">
+          <h3>Build a Minimalist Home Office</h3>
+          <p>Desk, chair, lighting, and accessories that keep your space calm and productive.</p>
+        </div>
+      </a>
+      <a class="card" href="kitchen-tools-guide.html">
+        <img src="guide-kitchen.jpg" alt="Kitchen Tools (placeholder)">
+        <div class="content">
+          <h3>Kitchen Tools: What Every Home Cook Needs</h3>
+          <p>The essential tools (and smart upgrades) for everyday cooking.</p>
+        </div>
+      </a>
+      <a class="card" href="travelguide.html">
+        <img src="guide-travel.jpg" alt="Travel organizers (placeholder)">
+        <div class="content">
+          <h3>Must-Have Travel Organizers</h3>
+          <p>Pack cubes, tech pouches, and toiletry kits that make trips smoother.</p>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Quick Picks -->
+<section class="section">
+  <div class="section-card">
+    <h2>Quick Picks</h2>
+    <div class="cards">
+      <a class="card" href="skincare-tools.html">
+        <img src="qp-skincare.jpg" alt="Skincare tools (placeholder)">
+        <div class="content">
+          <h3>Best Skincare Tools of 2025</h3>
+          <p>Dermaplaners, LED masks, and more we’d actually buy.</p>
+        </div>
+      </a>
+      <a class="card" href="smart-home-essentials.html">
+        <img src="qp-smart-home.jpg" alt="Smart home essentials (placeholder)">
+        <div class="content">
+          <h3>Smart Home Essentials</h3>
+          <p>Easy upgrades that make daily life a bit easier.</p>
+        </div>
+      </a>
+      <a class="card" href="gadgets-under-50.html">
+        <img src="qp-50.jpg" alt="Gadgets under 50 (placeholder)">
+        <div class="content">
+          <h3>Coolest Gadgets Under $50</h3>
+          <p>Small prices, big smiles—our favorite budget finds.</p>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Category Sections (ALL) -->
 <section id="homeglow" class="category-section">
-  <h2>HomeGlow</h2>
-  <div class="subcategory-grid">
-    <div class="subcategory-card">
-      <img src="HomeGlow.jpg" alt="Positive Vibes at Home">
-      <a href="positive-vibes.html">Positive Vibes at Home</a>
-    </div>
-    <div class="subcategory-card">
-      <img src="budgetdecor.jpg" alt="Luxury Looks for Less">
-      <a href="budgetdecor.html">Luxury Looks for Less</a>
-    </div>
-    <div class="subcategory-card">
-      <img src="decorgarden.jpg" alt="Decor & Garden Picks">
-      <a href="decorgarden.html">Decor & Garden Picks</a>
-    </div>
-    <div class="subcategory-card">
-      <img src="Organizingclothes.jpg" alt="Clothes Storage & Organization">
-      <a href="Organizingclothes.html">Clothes Storage & Organization</a>
+  <div class="category-card">
+    <h2 class="category-title">HomeGlow</h2>
+    <div class="subcategory-grid">
+      <div class="subcategory"><a href="positive-vibes.html"><img src="HomeGlow.jpg" alt="Positive Vibes (placeholder)"><h4>Positive Vibes at Home</h4></a></div>
+      <div class="subcategory"><a href="budgetdecor.html"><img src="budgetdecor.jpg" alt="Luxury Looks for Less (placeholder)"><h4>Luxury Looks for Less</h4></a></div>
+      <div class="subcategory"><a href="decorgarden.html"><img src="decorgarden.jpg" alt="Decor & Garden (placeholder)"><h4>Decor & Garden Picks</h4></a></div>
+      <div class="subcategory"><a href="Organizingclothes.html"><img src="Organizingclothes.jpg" alt="Clothes Storage (placeholder)"><h4>Clothes Storage & Organization</h4></a></div>
     </div>
   </div>
 </section>
 
 <section id="tech" class="category-section">
-  <h2>Tech</h2>
-  <div class="subcategory-grid">
-    <div class="subcategory-card">
-      <img src="study.jpg" alt="Study Smart with AI">
-      <a href="study.html">Study Smart with AI</a>
-    </div>
-    <div class="subcategory-card">
-      <img src="smart-home-essentials.jpg" alt="Smart Living">
-      <a href="smart-home-essentials.html">Smart Living</a>
-    </div>
-    <div class="subcategory-card">
-      <img src="games.jpg" alt="Best Game Controllers">
-      <a href="games.html">Best Game Controllers</a>
+  <div class="category-card">
+    <h2 class="category-title">Tech</h2>
+    <div class="subcategory-grid">
+      <div class="subcategory"><a href="study.html"><img src="study.jpg" alt="Study Smart with AI (placeholder)"><h4>Study Smart with AI</h4></a></div>
+      <div class="subcategory"><a href="smart-home-essentials.html"><img src="smart-home-essentials.jpg" alt="Smart Living (placeholder)"><h4>Smart Living</h4></a></div>
+      <div class="subcategory"><a href="games.html"><img src="games.jpg" alt="Best Game Controllers (placeholder)"><h4>Best Game Controllers</h4></a></div>
     </div>
   </div>
 </section>
 
-<!-- Add similarly structured sections for Lifestyle, Beauty, Baby & Kids, Taste & Tools, Deals -->
+<section id="lifestyle" class="category-section">
+  <div class="category-card">
+    <h2 class="category-title">Lifestyle</h2>
+    <div class="subcategory-grid">
+      <div class="subcategory"><a href="wellbeing.html"><img src="lifestyle.jpg" alt="Wellbeing & Self-Care (placeholder)"><h4>Wellbeing & Self-Care</h4></a></div>
+      <div class="subcategory"><a href="routine.html"><img src="routine.jpg" alt="Routine Essentials (placeholder)"><h4>Routine Essentials in 2025</h4></a></div>
+      <div class="subcategory"><a href="weightlose.html"><img src="weightlose.jpg" alt="Lose 7lbs (placeholder)"><h4>Lose 7lbs in 30 Days</h4></a></div>
+      <div class="subcategory"><a href="mummytommy.html"><img src="mummytommy.jpg" alt="Fix Mummy Tummy (placeholder)"><h4>Fix Mummy Tummy Naturally</h4></a></div>
+    </div>
+  </div>
+</section>
+
+<section id="beauty" class="category-section">
+  <div class="category-card">
+    <h2 class="category-title">Beauty</h2>
+    <div class="subcategory-grid">
+      <div class="subcategory"><a href="skincare.html"><img src="beauty.jpg" alt="Skincare Picks (placeholder)"><h4>Skincare Picks</h4></a></div>
+      <div class="subcategory"><a href="haircare.html"><img src="haircare.jpg" alt="Hair Tools (placeholder)"><h4>Best Hair Tools of 2025</h4></a></div>
+      <div class="subcategory"><a href="skincare-tools.html"><img src="skincare-tools.jpg" alt="Skincare Tools (placeholder)"><h4>2025's Best Skincare Tools</h4></a></div>
+      <div class="subcategory"><a href="glassskin.html"><img src="glassskin.jpg" alt="Glass Skin (placeholder)"><h4>DIY Glass Skin Routine</h4></a></div>
+      <div class="subcategory"><a href="Thinhair.html"><img src="Thinhair.jpg" alt="Hair Loss (placeholder)"><h4>Hair Loss Treatment</h4></a></div>
+      <div class="subcategory"><a href="redlight.html"><img src="redlight.jpg" alt="Red Light (placeholder)"><h4>Red Light Glow</h4></a></div>
+    </div>
+  </div>
+</section>
+
+<section id="baby-kids" class="category-section">
+  <div class="category-card">
+    <h2 class="category-title">Baby & Kids</h2>
+    <div class="subcategory-grid">
+      <div class="subcategory"><a href="bestpickid.html"><img src="pictoday.jpg" alt="Best Picks for Kids (placeholder)"><h4>Best Picks to Buy for Kids</h4></a></div>
+      <!-- Add more Baby & Kids pages as you publish -->
+    </div>
+  </div>
+</section>
+
+<section id="taste-tools" class="category-section">
+  <div class="category-card">
+    <h2 class="category-title">Taste & Tools</h2>
+    <div class="subcategory-grid">
+      <div class="subcategory"><a href="kitchen-tools.html"><img src="Taste-Tools.jpg" alt="Kitchen Tools (placeholder)"><h4>Kitchen Tools</h4></a></div>
+      <div class="subcategory"><a href="recipes.html"><img src="recipes.jpg" alt="Quick Recipes (placeholder)"><h4>Quick Recipes</h4></a></div>
+      <div class="subcategory"><a href="diet.html"><img src="diet.jpg" alt="Best Diet (placeholder)"><h4>Best Diet for Weight Loss</h4></a></div>
+    </div>
+  </div>
+</section>
+
+<section id="deals" class="category-section">
+  <div class="category-card">
+    <h2 class="category-title">Deals</h2>
+    <div class="subcategory-grid">
+      <div class="subcategory"><a href="deals.html"><img src="deals.jpg" alt="Latest Deals (placeholder)"><h4>Latest Deals</h4></a></div>
+      <div class="subcategory"><a href="gadgets-under-50.html"><img src="qp-50.jpg" alt="Under $50 (placeholder)"><h4>Gadgets Under $50</h4></a></div>
+    </div>
+  </div>
+</section>
 
 <footer>
   <p>&copy; 2025 Modexa. All rights reserved.</p>
-  <a href="media-kit.html">Media Kit</a> |
-  <a href="terms-of-service.html" target="_blank">Terms of Service</a> |
-  <a href="privacy-policy.html" target="_blank">Privacy Policy</a>
+  <p><a href="media-kit.html">Media Kit</a> &nbsp;|&nbsp;
+     <a href="terms-of-service.html" target="_blank" rel="noopener">Terms of Service</a> &nbsp;|&nbsp;
+     <a href="privacy-policy.html" target="_blank" rel="noopener">Privacy Policy</a></p>
 </footer>
 
 <script>
-  function toggleMenu() {
-    document.querySelector('nav').classList.toggle('active');
-  }
+  // ---------- Mobile hamburger toggle ----------
+  const hamburger = document.getElementById('hamburger');
+  const navCats = document.getElementById('navCats');
+  hamburger?.addEventListener('click', () => {
+    const isOpen = navCats.classList.toggle('open');
+    hamburger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  });
 
-  const slides = document.querySelectorAll('.slide');
-  let currentSlide = 0;
-  function showSlide() {
-    slides.forEach(s => (s.style.display = 'none'));
-    slides[currentSlide].style.display = 'block';
-    currentSlide = (currentSlide + 1) % slides.length;
+  // ---------- Mobile submenu toggle (tap to open) ----------
+  // Only activate on small screens
+  function setupMobileSubmenus(){
+    const isMobile = window.matchMedia("(max-width: 768px)").matches;
+    document.querySelectorAll('.nav-item').forEach(item=>{
+      const trigger = item.querySelector(':scope > a');
+      const dropdown = item.querySelector(':scope > .dropdown');
+      if(!trigger || !dropdown) return;
+
+      // Clean previous listeners
+      trigger.onclick = null;
+
+      if(isMobile){
+        trigger.addEventListener('click', (e)=>{
+          e.preventDefault();
+          item.classList.toggle('open'); // CSS shows dropdown when .open
+        });
+      }
+    });
   }
-  setInterval(showSlide, 5000);
-  showSlide();
+  setupMobileSubmenus();
+  window.addEventListener('resize', setupMobileSubmenus);
+
+  // ---------- News carousel (5s) ----------
+  const slides = Array.from(document.querySelectorAll('.news-slide'));
+  let idx = 0;
+  function show(i){
+    slides.forEach((s, n)=> s.classList.toggle('active', n===i));
+  }
+  function nextSlide(){
+    idx = (idx + 1) % slides.length;
+    show(idx);
+  }
+  if(slides.length){ setInterval(nextSlide, 5000); show(0); }
+
+  // ---------- Optional: Language toggle visual (no translation logic) ----------
+  const langEn = document.getElementById('lang-en');
+  const langAr = document.getElementById('lang-ar');
+  langEn?.addEventListener('click', (e)=>{ e.preventDefault(); langEn.classList.add('active'); langAr.classList.remove('active'); document.documentElement.dir='ltr'; });
+  langAr?.addEventListener('click', (e)=>{ e.preventDefault(); langAr.classList.add('active'); langEn.classList.remove('active'); document.documentElement.dir='rtl'; });
 </script>
 </body>
 </html>

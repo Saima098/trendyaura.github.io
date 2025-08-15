@@ -5,47 +5,51 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Modexa - Lifestyle & Tech Finds</title>
 <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
-<link rel="icon" type="image/png" sizes="16x16" href="favicon.png">
-<link rel="shortcut icon" href="favicon.png">
 <style>
   * { box-sizing:border-box; margin:0; padding:0; }
   body { font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:#f5f5f5; color:#333; }
 
   /* Utility bar */
-  .utility-bar { background:#2c3e50; color:#fff; padding:5px 20px; display:flex; justify-content:space-between; align-items:center; font-size:0.9rem; }
+  .utility-bar { background:#2c3e50; color:#fff; padding:5px 20px; display:flex; justify-content:flex-start; align-items:center; font-size:0.9rem; }
   .language-toggle a { color:#fff; margin-right:10px; text-decoration:none; font-weight:600; }
   .language-toggle a.active { text-decoration:underline; }
-  .search-bar input { padding:5px 10px; border-radius:20px; border:none; outline:none; width:200px; }
 
   /* Header */
-  header { background: linear-gradient(135deg,#2c3e50,#34495e); color:#fff; padding:30px 20px; text-align:center; }
-  header h1 { margin-bottom:10px; font-size:2.5rem; }
-  header p { font-size:1.1rem; }
+  header { background: linear-gradient(135deg,#2c3e50,#34495e); color:#fff; padding:20px; text-align:center; }
+  header h1 { margin-bottom:5px; font-size:2.2rem; }
+  header p { font-size:1rem; }
 
   /* Nav */
-  nav { background:#fff; display:flex; justify-content:center; position:sticky; top:0; z-index:1000; flex-wrap:wrap; border-bottom:1px solid #eee; }
-  nav .nav-container { display:flex; gap:15px; flex-wrap:wrap; align-items:center; padding:10px; }
-  nav .nav-container a { position:relative; text-decoration:none; color:#2c3e50; padding:8px 12px; border-radius:5px; font-weight:600; }
-  nav .nav-container a:hover { background:#e74c3c; color:#fff; }
-  nav .dropdown { display:none; position:absolute; top:100%; left:0; background:#fff; border:1px solid #ccc; border-radius:8px; min-width:180px; box-shadow:0 2px 10px rgba(0,0,0,0.15); z-index:100; }
-  nav .dropdown a { display:block; padding:8px 10px; color:#2c3e50; }
-  nav .dropdown a:hover { background:#eee; }
-  nav .nav-item:hover .dropdown { display:block; }
+  nav { background:#fff; display:flex; justify-content:space-between; align-items:center; position:sticky; top:0; z-index:1000; border-bottom:1px solid #eee; padding:10px 15px; }
+  .nav-left { display:flex; align-items:center; gap:15px; flex-wrap:wrap; }
+  .nav-left a { text-decoration:none; color:#2c3e50; font-weight:600; padding:6px 10px; border-radius:4px; }
+  .nav-left a:hover { background:#e74c3c; color:#fff; }
+  .search-bar input { padding:6px 10px; border-radius:20px; border:1px solid #ccc; outline:none; }
 
   /* Hamburger */
   .hamburger { display:none; flex-direction:column; cursor:pointer; gap:4px; }
   .hamburger div { width:25px; height:3px; background:#2c3e50; }
-  @media(max-width:768px){ nav .nav-container{ display:none; flex-direction:column; width:100%; } nav.active .nav-container{ display:flex; } .hamburger{ display:flex; margin-left:15px; } .utility-bar .search-bar{ display:none; } }
+
+  @media(max-width:768px){
+    .nav-left { display:none; flex-direction:column; width:100%; background:#fff; padding:10px; }
+    nav.active .nav-left { display:flex; }
+    .hamburger { display:flex; }
+    .search-bar { width:100%; margin-top:10px; }
+    .search-bar input { width:100%; }
+  }
 
   /* Main layout */
   .main { max-width:1200px; margin:auto; padding:20px; display:flex; gap:20px; flex-wrap:wrap; }
   .featured { flex:3; min-width:300px; background:#fff; padding:20px; border-radius:10px; box-shadow:0 2px 10px rgba(0,0,0,0.05); }
   .featured img { width:100%; border-radius:8px; margin-bottom:10px; }
-  .sidebar { flex:1; min-width:200px; background:#f0f8ff; padding:15px; border-radius:10px; box-shadow:0 2px 10px rgba(0,0,0,0.05); height:max-content; }
-  .sidebar h3 { margin-bottom:10px; }
-  .sidebar p { margin-bottom:8px; }
 
-  /* Category Section */
+  /* News carousel */
+  .sidebar { flex:1; min-width:250px; background:#fff; padding:0; border-radius:10px; box-shadow:0 2px 10px rgba(0,0,0,0.05); overflow:hidden; position:relative; }
+  .news-slide { display:none; }
+  .news-slide img { width:100%; display:block; }
+  .news-caption { padding:10px; font-weight:600; background:rgba(255,255,255,0.9); position:absolute; bottom:0; width:100%; }
+
+  /* Categories */
   .category-section { background:#fff; padding:20px; border-radius:10px; box-shadow:0 2px 10px rgba(0,0,0,0.05); margin-bottom:20px; }
   .category-section h2 { margin-bottom:15px; }
   .subcategory-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:15px; }
@@ -55,9 +59,7 @@
 
   /* Footer */
   footer { text-align:center; padding:20px; background:#2c3e50; color:#fff; }
-  footer a{color:#fff;text-decoration:underline;margin:0 5px;}
-
-  @media(max-width:768px){ .main{flex-direction:column;} }
+  footer a { color:#fff; text-decoration:underline; margin:0 5px; }
 </style>
 </head>
 <body>
@@ -66,9 +68,6 @@
 <div class="utility-bar">
   <div class="language-toggle">
     <a href="#" class="active">English</a> | <a href="#">Arabic</a>
-  </div>
-  <div class="search-bar">
-    <input type="text" placeholder="Search..." />
   </div>
 </div>
 
@@ -81,14 +80,17 @@
 <!-- Nav -->
 <nav>
   <div class="hamburger" onclick="toggleMenu()"><div></div><div></div><div></div></div>
-  <div class="nav-container">
-    <div class="nav-item"><a href="#">HomeGlow</a></div>
-    <div class="nav-item"><a href="#">Tech</a></div>
-    <div class="nav-item"><a href="#">Lifestyle</a></div>
-    <div class="nav-item"><a href="#">Beauty</a></div>
-    <div class="nav-item"><a href="#">Baby & Kids</a></div>
-    <div class="nav-item"><a href="#">Taste & Tools</a></div>
-    <div class="nav-item"><a href="#">Deals</a></div>
+  <div class="nav-left">
+    <a href="#">HomeGlow</a>
+    <a href="#">Tech</a>
+    <a href="#">Lifestyle</a>
+    <a href="#">Beauty</a>
+    <a href="#">Baby & Kids</a>
+    <a href="#">Taste & Tools</a>
+    <a href="#">Deals</a>
+    <div class="search-bar">
+      <input type="text" placeholder="Search...">
+    </div>
   </div>
 </nav>
 
@@ -102,21 +104,26 @@
     <a href="featured-article.html" style="color:#e67e22;font-weight:600;">Read More</a>
   </div>
 
-  <!-- Sidebar News Feed -->
+  <!-- Sidebar News Carousel -->
   <aside class="sidebar">
-    <h3>Latest News</h3>
-    <p>🔥 Smart Thermostats Save Energy!</p>
-    <p>🏡 Best Minimalist Home Office Setup</p>
-    <p>🎧 Cool Gadgets Under $50</p>
-    <p>💄 DIY Glass Skin Routine</p>
-    <p>🍳 Quick Recipes for Busy Moms</p>
+    <div class="news-slide">
+      <img src="news1.jpg" alt="News 1">
+      <div class="news-caption">🔥 Smart Thermostats Save Energy!</div>
+    </div>
+    <div class="news-slide">
+      <img src="news2.jpg" alt="News 2">
+      <div class="news-caption">🏡 Best Minimalist Home Office Setup</div>
+    </div>
+    <div class="news-slide">
+      <img src="news3.jpg" alt="News 3">
+      <div class="news-caption">🎧 Cool Gadgets Under $50</div>
+    </div>
   </aside>
 </div>
 
 <!-- Categories -->
 <div class="main" style="flex-direction:column;">
 
-  <!-- HomeGlow Section -->
   <div class="category-section">
     <h2>HomeGlow</h2>
     <div class="subcategory-grid">
@@ -127,61 +134,7 @@
     </div>
   </div>
 
-  <!-- Tech Section -->
-  <div class="category-section">
-    <h2>Tech</h2>
-    <div class="subcategory-grid">
-      <div class="subcategory-card"><a href="study.html">Study Smart with AI</a></div>
-      <div class="subcategory-card"><a href="smart-home-essentials.html">Smart Living</a></div>
-      <div class="subcategory-card"><a href="games.html">Best Game Controllers</a></div>
-    </div>
-  </div>
-
-  <!-- Lifestyle Section -->
-  <div class="category-section">
-    <h2>Lifestyle</h2>
-    <div class="subcategory-grid">
-      <div class="subcategory-card"><a href="wellbeing.html">Wellbeing & Self-Care</a></div>
-      <div class="subcategory-card"><a href="routine.html">Routine Essentials</a></div>
-      <div class="subcategory-card"><a href="weightlose.html">Lose 7lbs in 30 Days</a></div>
-    </div>
-  </div>
-
-  <!-- Beauty Section -->
-  <div class="category-section">
-    <h2>Beauty</h2>
-    <div class="subcategory-grid">
-      <div class="subcategory-card"><a href="skincare.html">Skincare Picks</a></div>
-      <div class="subcategory-card"><a href="haircare.html">Best Hair Tools</a></div>
-      <div class="subcategory-card"><a href="glassskin.html">DIY Glass Skin</a></div>
-    </div>
-  </div>
-
-  <!-- Baby & Kids Section -->
-  <div class="category-section">
-    <h2>Baby & Kids</h2>
-    <div class="subcategory-grid">
-      <div class="subcategory-card"><a href="bestpickid.html">Best Picks for Kids</a></div>
-    </div>
-  </div>
-
-  <!-- Taste & Tools Section -->
-  <div class="category-section">
-    <h2>Taste & Tools</h2>
-    <div class="subcategory-grid">
-      <div class="subcategory-card"><a href="kitchen-tools.html">Kitchen Tools</a></div>
-      <div class="subcategory-card"><a href="recipes.html">Quick Recipes</a></div>
-      <div class="subcategory-card"><a href="diet.html">Best Diet Tips</a></div>
-    </div>
-  </div>
-
-  <!-- Deals Section -->
-  <div class="category-section">
-    <h2>Deals</h2>
-    <div class="subcategory-grid">
-      <div class="subcategory-card"><a href="deals.html">Latest Deals</a></div>
-    </div>
-  </div>
+  <!-- Add other category sections here (Tech, Lifestyle, Beauty, etc.) -->
 
 </div>
 
@@ -194,7 +147,22 @@
 </footer>
 
 <script>
-  function toggleMenu(){document.querySelector('nav').classList.toggle('active');}
+  function toggleMenu(){
+    document.querySelector('nav').classList.toggle('active');
+  }
+
+  // News carousel logic
+  let slideIndex = 0;
+  const slides = document.querySelectorAll(".news-slide");
+
+  function showSlides() {
+    slides.forEach(slide => slide.style.display = "none");
+    slideIndex++;
+    if (slideIndex > slides.length) { slideIndex = 1; }
+    slides[slideIndex - 1].style.display = "block";
+    setTimeout(showSlides, 5000); // Change every 5 seconds
+  }
+  showSlides();
 </script>
 
 </body>

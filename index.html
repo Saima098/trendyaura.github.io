@@ -8,135 +8,63 @@
 <link rel="icon" type="image/png" sizes="16x16" href="favicon.png">
 <link rel="shortcut icon" href="favicon.png">
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f5f5f5; color: #333; }
-  
-  /* Top utility bar */
-  .utility-bar {
-    background: #2c3e50;
-    color: #fff;
-    padding: 5px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 0.9rem;
-  }
-  .utility-bar .language-toggle a {
-    color: #fff;
-    margin-right: 10px;
-    text-decoration: none;
-    font-weight: 600;
-  }
-  .utility-bar .language-toggle a.active { text-decoration: underline; }
-  .utility-bar .search-bar input {
-    padding: 5px 10px;
-    border-radius: 20px;
-    border: none;
-    outline: none;
-    width: 200px;
-  }
+  * { box-sizing: border-box; margin:0; padding:0; }
+  body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:#f5f5f5; color:#333; }
 
-  /* Main header */
-  header {
-    background: linear-gradient(135deg, #2c3e50, #34495e);
-    color: #fff;
-    padding: 30px 20px;
-    text-align: center;
-  }
-  header h1 { margin-bottom: 10px; font-size: 2.5rem; }
-  header p { font-size: 1.1rem; }
+  /* Utility bar */
+  .utility-bar { background:#2c3e50; color:#fff; padding:5px 20px; display:flex; justify-content:space-between; align-items:center; font-size:0.9rem; }
+  .utility-bar .language-toggle a { color:#fff; margin-right:10px; text-decoration:none; font-weight:600; }
+  .utility-bar .language-toggle a.active { text-decoration:underline; }
+  .utility-bar .search-bar input { padding:5px 10px; border-radius:20px; border:none; outline:none; width:200px; }
 
-  /* Navigation */
-  nav {
-    background-color: #fff;
-    display: flex;
-    justify-content: center;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    flex-wrap: wrap;
-    border-bottom: 1px solid #eee;
-  }
-  nav .nav-container { display: flex; gap: 15px; flex-wrap: wrap; align-items: center; padding: 10px; }
-  nav .nav-container a {
-    position: relative;
-    text-decoration: none;
-    color: #2c3e50;
-    padding: 8px 12px;
-    border-radius: 5px;
-    font-weight: 600;
-  }
-  nav .nav-container a:hover { background-color: #e74c3c; color: #fff; }
-  nav .dropdown {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    background: #fff;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    min-width: 180px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.15);
-    z-index: 100;
-  }
-  nav .dropdown a {
-    display: block;
-    padding: 8px 10px;
-    color: #2c3e50;
-  }
-  nav .dropdown a:hover { background-color: #eee; }
-  nav .nav-item:hover .dropdown { display: block; }
+  /* Header */
+  header { background: linear-gradient(135deg,#2c3e50,#34495e); color:#fff; padding:30px 20px; text-align:center; }
+  header h1 { margin-bottom:10px; font-size:2.5rem; }
+  header p { font-size:1.1rem; }
 
-  /* Hamburger menu for mobile */
-  .hamburger {
-    display: none;
-    flex-direction: column;
-    cursor: pointer;
-    gap: 4px;
-  }
-  .hamburger div {
-    width: 25px; height: 3px; background-color: #2c3e50;
-  }
-  @media (max-width: 768px) {
-    nav .nav-container { display: none; flex-direction: column; width: 100%; }
-    nav.active .nav-container { display: flex; }
-    .hamburger { display: flex; margin-left: 15px; }
-    .utility-bar .search-bar { display: none; }
-  }
+  /* Nav */
+  nav { background:#fff; display:flex; justify-content:center; position:sticky; top:0; z-index:1000; flex-wrap:wrap; border-bottom:1px solid #eee; }
+  nav .nav-container { display:flex; gap:15px; flex-wrap:wrap; align-items:center; padding:10px; }
+  nav .nav-container a { position:relative; text-decoration:none; color:#2c3e50; padding:8px 12px; border-radius:5px; font-weight:600; }
+  nav .nav-container a:hover { background:#e74c3c; color:#fff; }
+  nav .dropdown { display:none; position:absolute; top:100%; left:0; background:#fff; border:1px solid #ccc; border-radius:8px; min-width:180px; box-shadow:0 2px 10px rgba(0,0,0,0.15); z-index:100; }
+  nav .dropdown a { display:block; padding:8px 10px; color:#2c3e50; }
+  nav .dropdown a:hover { background:#eee; }
+  nav .nav-item:hover .dropdown { display:block; }
 
-  /* Main layout */
-  .main { max-width: 1200px; margin: auto; display: flex; flex-wrap: wrap; gap: 20px; padding: 20px; }
-  .sidebar { flex: 1; min-width: 250px; background-color: #f0f8ff; padding: 20px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-  .content { flex: 3; min-width: 300px; display: flex; flex-direction: column; gap: 30px; }
+  /* Hamburger */
+  .hamburger { display:none; flex-direction:column; cursor:pointer; gap:4px; }
+  .hamburger div { width:25px; height:3px; background:#2c3e50; }
+  @media(max-width:768px){ nav .nav-container{ display:none; flex-direction:column; width:100%; } nav.active .nav-container{ display:flex; } .hamburger{ display:flex; margin-left:15px; } .utility-bar .search-bar{ display:none; } }
 
-  .section { background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-  .section h2 { text-align: center; margin-bottom: 20px; }
+  /* Main */
+  .main { max-width:1200px; margin:auto; padding:20px; display:flex; flex-direction:column; gap:30px; }
 
-  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 20px; }
-  .card { text-align: center; background: #fff; padding: 15px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: relative; }
-  .card img { width: 100%; height: 120px; object-fit: contain; border-radius: 8px; margin-bottom: 10px; background-color: #fff; }
-  .card p { margin: 0; font-weight: 600; }
+  /* Category Section */
+  .category-section { background:#fff; padding:20px; border-radius:10px; box-shadow:0 2px 10px rgba(0,0,0,0.05); }
+  .category-section h2 { margin-bottom:15px; }
+  .subcategory-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:15px; }
+  .subcategory-card { background:#f0f8ff; padding:15px; border-radius:8px; text-align:center; transition:0.3s; }
+  .subcategory-card:hover { background:#e67e22; color:#fff; }
+  .subcategory-card a { text-decoration:none; color:inherit; font-weight:600; display:block; }
 
-  .blog-post { margin-bottom: 15px; }
-  .blog-post h4 { margin-bottom: 5px; }
-  .blog-post a { color: #e67e22; text-decoration: none; font-weight: 600; }
+  /* News Ticker */
+  .news-ticker { background:#e74c3c; color:#fff; padding:10px; overflow:hidden; white-space:nowrap; position:relative; }
+  .news-ticker p { display:inline-block; padding-left:100%; animation:ticker 20s linear infinite; }
+  @keyframes ticker { 0%{ transform:translateX(0%);} 100%{ transform:translateX(-100%);} }
 
-  /* News ticker */
-  .news-ticker { background: #e74c3c; color: #fff; padding: 10px; overflow: hidden; white-space: nowrap; position: relative; }
-  .news-ticker p { display: inline-block; padding-left: 100%; animation: ticker 20s linear infinite; }
-  @keyframes ticker { 0% { transform: translateX(0%); } 100% { transform: translateX(-100%); } }
-
-  footer { text-align: center; padding: 20px; background: #2c3e50; color: #fff; margin-top: 20px; }
-  footer a { color: #fff; text-decoration: underline; margin: 0 5px; }
+  /* Footer */
+  footer { text-align:center; padding:20px; background:#2c3e50; color:#fff; }
+  footer a{color:#fff;text-decoration:underline;margin:0 5px;}
 
 </style>
 </head>
 <body>
 
-<!-- Top Utility Bar -->
+<!-- Utility bar -->
 <div class="utility-bar">
   <div class="language-toggle">
-    <a href="#" class="active">English</a>|<a href="#">Arabic</a>
+    <a href="#" class="active">English</a> | <a href="#">Arabic</a>
   </div>
   <div class="search-bar">
     <input type="text" placeholder="Search..." />
@@ -149,65 +77,17 @@
   <p>Your Daily Dose of Lifestyle, Home & Tech Finds</p>
 </header>
 
-<!-- Navigation -->
+<!-- Nav -->
 <nav>
-  <div class="hamburger" onclick="toggleMenu()">
-    <div></div><div></div><div></div>
-  </div>
+  <div class="hamburger" onclick="toggleMenu()"><div></div><div></div><div></div></div>
   <div class="nav-container">
-    <div class="nav-item">
-      <a href="#">HomeGlow</a>
-      <div class="dropdown">
-        <a href="positive-vibes.html">Positive Vibes at Home</a>
-        <a href="budgetdecor.html">Luxury Looks for Less</a>
-        <a href="decorgarden.html">Decor & Garden Picks</a>
-        <a href="Organizingclothes.html">Clothes Storage & Organization</a>
-      </div>
-    </div>
-    <div class="nav-item">
-      <a href="#">Tech</a>
-      <div class="dropdown">
-        <a href="study.html">Study Smart with AI</a>
-        <a href="smart-home-essentials.html">Smart Living</a>
-        <a href="games.html">Best Game Controllers</a>
-      </div>
-    </div>
-    <div class="nav-item">
-      <a href="#">Lifestyle</a>
-      <div class="dropdown">
-        <a href="wellbeing.html">Wellbeing & Self-Care</a>
-        <a href="routine.html">Routine Essentials in 2025</a>
-        <a href="weightlose.html">Lose 7lbs in 30 Days</a>
-      </div>
-    </div>
-    <div class="nav-item">
-      <a href="#">Beauty</a>
-      <div class="dropdown">
-        <a href="skincare.html">Skincare Picks</a>
-        <a href="haircare.html">Best Hair Tools</a>
-        <a href="glassskin.html">DIY Glass Skin</a>
-      </div>
-    </div>
-    <div class="nav-item">
-      <a href="#">Baby & Kids</a>
-      <div class="dropdown">
-        <a href="bestpickid.html">Best Picks to Buy for Kids</a>
-      </div>
-    </div>
-    <div class="nav-item">
-      <a href="#">Taste & Tools</a>
-      <div class="dropdown">
-        <a href="kitchen-tools.html">Kitchen Tools</a>
-        <a href="recipes.html">Quick Recipes</a>
-        <a href="diet.html">Best Diet Tips</a>
-      </div>
-    </div>
-    <div class="nav-item">
-      <a href="#">Deals</a>
-      <div class="dropdown">
-        <a href="deals.html">Latest Deals</a>
-      </div>
-    </div>
+    <div class="nav-item"><a href="#">HomeGlow</a></div>
+    <div class="nav-item"><a href="#">Tech</a></div>
+    <div class="nav-item"><a href="#">Lifestyle</a></div>
+    <div class="nav-item"><a href="#">Beauty</a></div>
+    <div class="nav-item"><a href="#">Baby & Kids</a></div>
+    <div class="nav-item"><a href="#">Taste & Tools</a></div>
+    <div class="nav-item"><a href="#">Deals</a></div>
   </div>
 </nav>
 
@@ -218,43 +98,74 @@
 
 <!-- Main Content -->
 <div class="main">
-  <!-- Sidebar Quick Picks -->
-  <aside class="sidebar">
-    <h3>Quick Picks</h3>
-    <ul>
-      <li><a href="skincare-tools.html">✨ Best Skincare Tools 2025</a></li>
-      <li><a href="smart-home-essentials.html">🪄 Smart Home Essentials</a></li>
-      <li><a href="gadgets-under-50.html">🎧 Coolest Gadgets Under $50</a></li>
-    </ul>
-  </aside>
 
-  <!-- Content -->
-  <section class="content">
-
-    <!-- Main Featured Article -->
-    <div class="section">
-      <h2>Main Feature</h2>
-      <div class="card">
-        <img src="main-feature.jpg" alt="Main Article">
-        <p><a href="main-feature.html">How to Create the Perfect Home Office</a></p>
-      </div>
+  <!-- HomeGlow Section -->
+  <div class="category-section">
+    <h2>HomeGlow</h2>
+    <div class="subcategory-grid">
+      <div class="subcategory-card"><a href="positive-vibes.html">Positive Vibes at Home</a></div>
+      <div class="subcategory-card"><a href="budgetdecor.html">Luxury Looks for Less</a></div>
+      <div class="subcategory-card"><a href="decorgarden.html">Decor & Garden Picks</a></div>
+      <div class="subcategory-card"><a href="Organizingclothes.html">Clothes Storage & Organization</a></div>
     </div>
+  </div>
 
-    <!-- Categories Grid -->
-    <div class="section" id="categories">
-      <h2>Explore Categories</h2>
-      <div class="grid">
-        <div class="card"><img src="HomeGlow.jpg" alt="HomeGlow"><p>HomeGlow</p></div>
-        <div class="card"><img src="tech.jpg" alt="Tech"><p>Tech</p></div>
-        <div class="card"><img src="lifestyle.jpg" alt="Lifestyle"><p>Lifestyle</p></div>
-        <div class="card"><img src="beauty.jpg" alt="Beauty"><p>Beauty</p></div>
-        <div class="card"><img src="pictoday.jpg" alt="Baby & Kids"><p>Baby & Kids</p></div>
-        <div class="card"><img src="Taste-Tools.jpg" alt="Taste & Tools"><p>Taste & Tools</p></div>
-        <div class="card"><img src="deals.jpg" alt="Deals"><p>Deals</p></div>
-      </div>
+  <!-- Tech Section -->
+  <div class="category-section">
+    <h2>Tech</h2>
+    <div class="subcategory-grid">
+      <div class="subcategory-card"><a href="study.html">Study Smart with AI</a></div>
+      <div class="subcategory-card"><a href="smart-home-essentials.html">Smart Living</a></div>
+      <div class="subcategory-card"><a href="games.html">Best Game Controllers</a></div>
     </div>
+  </div>
 
-  </section>
+  <!-- Lifestyle Section -->
+  <div class="category-section">
+    <h2>Lifestyle</h2>
+    <div class="subcategory-grid">
+      <div class="subcategory-card"><a href="wellbeing.html">Wellbeing & Self-Care</a></div>
+      <div class="subcategory-card"><a href="routine.html">Routine Essentials</a></div>
+      <div class="subcategory-card"><a href="weightlose.html">Lose 7lbs in 30 Days</a></div>
+    </div>
+  </div>
+
+  <!-- Beauty Section -->
+  <div class="category-section">
+    <h2>Beauty</h2>
+    <div class="subcategory-grid">
+      <div class="subcategory-card"><a href="skincare.html">Skincare Picks</a></div>
+      <div class="subcategory-card"><a href="haircare.html">Best Hair Tools</a></div>
+      <div class="subcategory-card"><a href="glassskin.html">DIY Glass Skin</a></div>
+    </div>
+  </div>
+
+  <!-- Baby & Kids Section -->
+  <div class="category-section">
+    <h2>Baby & Kids</h2>
+    <div class="subcategory-grid">
+      <div class="subcategory-card"><a href="bestpickid.html">Best Picks for Kids</a></div>
+    </div>
+  </div>
+
+  <!-- Taste & Tools Section -->
+  <div class="category-section">
+    <h2>Taste & Tools</h2>
+    <div class="subcategory-grid">
+      <div class="subcategory-card"><a href="kitchen-tools.html">Kitchen Tools</a></div>
+      <div class="subcategory-card"><a href="recipes.html">Quick Recipes</a></div>
+      <div class="subcategory-card"><a href="diet.html">Best Diet Tips</a></div>
+    </div>
+  </div>
+
+  <!-- Deals Section -->
+  <div class="category-section">
+    <h2>Deals</h2>
+    <div class="subcategory-grid">
+      <div class="subcategory-card"><a href="deals.html">Latest Deals</a></div>
+    </div>
+  </div>
+
 </div>
 
 <!-- Footer -->
@@ -266,10 +177,7 @@
 </footer>
 
 <script>
-  // Hamburger toggle
-  function toggleMenu() {
-    document.querySelector('nav').classList.toggle('active');
-  }
+  function toggleMenu(){document.querySelector('nav').classList.toggle('active');}
 </script>
 
 </body>

@@ -511,6 +511,9 @@
   const hamburger = document.getElementById('hamburger');
   //const mobileMenu = document.getElementById('mobileMenu');
   const navCats = document.getElementById('navCats');
+  hamburger?.addEventListener('click', () => {
+    const isOpen = navCats.classList.toggle('open');
+    hamburger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
  hamburger.addEventListener('click', () => {
       mobileMenu.classList.toggle('show');
       if (mobileMenu.classList.contains('show')) {

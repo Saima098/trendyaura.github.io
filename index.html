@@ -221,7 +221,6 @@
 <header>
   <h1>Modexa</h1>
   <p>Your Daily Dose of Lifestyle, Home & Tech Finds</p>
-  <p>We carefully review and recommend only the best products, give clever tips, and easy guides so your home, lifestyle, and tech choices feel simple, smart, and fun! Dive in and discover something amazing today</p>
 </header>
 
 <!-- Main nav (sticky) -->
@@ -307,7 +306,7 @@
     </div>
   </nav>
 </div>
- 
+
 <!-- Mobile search (always visible, below nav) -->
 <div class="mobile-search">
   <div class="inner">
@@ -509,15 +508,10 @@
 <script>
   // ---------- Mobile hamburger toggle ----------
   const hamburger = document.getElementById('hamburger');
-  const mobileMenu = document.getElementById('mobileMenu');
-  //const navCats = document.getElementById('navCats');
- hamburger.addEventListener('click', () => {
-      mobileMenu.classList.toggle('show');
-      if (mobileMenu.classList.contains('show')) {
-        hamburger.textContent = '✖';
-      } else {
-        hamburger.textContent = '☰';
-      }
+  const navCats = document.getElementById('navCats');
+  hamburger?.addEventListener('click', () => {
+    const isOpen = navCats.classList.toggle('open');
+    hamburger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
   });
 
   // ---------- Mobile submenu toggle (tap to open) ----------

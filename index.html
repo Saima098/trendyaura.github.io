@@ -514,13 +514,6 @@
   hamburger?.addEventListener('click', () => {
     const isOpen = navCats.classList.toggle('open');
     hamburger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
- hamburger.addEventListener('click', () => {
-      mobileMenu.classList.toggle('show');
-      if (mobileMenu.classList.contains('show')) {
-        hamburger.textContent = '✖';
-      } else {
-        hamburger.textContent = '☰';
-      }
   });
 
   // ---------- Mobile submenu toggle (tap to open) ----------

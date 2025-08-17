@@ -307,19 +307,7 @@
     </div>
   </nav>
 </div>
- <script>
-    const hamburger = document.getElementById('hamburger');
-    const mobileMenu = document.getElementById('mobileMenu');
-
-    hamburger.addEventListener('click', () => {
-      mobileMenu.classList.toggle('show');
-      if (mobileMenu.classList.contains('show')) {
-        hamburger.textContent = '✖';
-      } else {
-        hamburger.textContent = '☰';
-      }
-    });
-  </script>
+ 
 <!-- Mobile search (always visible, below nav) -->
 <div class="mobile-search">
   <div class="inner">
@@ -521,10 +509,15 @@
 <script>
   // ---------- Mobile hamburger toggle ----------
   const hamburger = document.getElementById('hamburger');
-  const navCats = document.getElementById('navCats');
-  hamburger?.addEventListener('click', () => {
-    const isOpen = navCats.classList.toggle('open');
-    hamburger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  const mobileMenu = document.getElementById('mobileMenu');
+  //const navCats = document.getElementById('navCats');
+ hamburger.addEventListener('click', () => {
+      mobileMenu.classList.toggle('show');
+      if (mobileMenu.classList.contains('show')) {
+        hamburger.textContent = '✖';
+      } else {
+        hamburger.textContent = '☰';
+      }
   });
 
   // ---------- Mobile submenu toggle (tap to open) ----------

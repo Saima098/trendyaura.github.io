@@ -178,10 +178,39 @@
   @media (max-width: 900px){
     .search-bar input{ width:220px; }
   }
-  @media (max-width: 768px){
-    /* Hamburger visible */
-    .hamburger{ display:block; }
-   
+  /* 🔹 Global desktop styles */
+.hamburger {
+  display:none;
+  margin-left:auto;
+  cursor:pointer;
+}
+.hamburger span {
+  display:block;
+  width:26px;
+  height:3px;
+  background:var(--brand-dark);
+  margin:5px 0;
+  border-radius:2px;
+  transition:all 0.3s ease;  /* added */
+}
+
+/* 🔹 Hamburger transforms when open */
+.hamburger.open span:nth-child(1) {
+  transform:rotate(45deg) translate(5px, 5px);
+}
+.hamburger.open span:nth-child(2) {
+  opacity:0;
+}
+.hamburger.open span:nth-child(3) {
+  transform:rotate(-45deg) translate(6px, -6px);
+}
+
+/* 🔹 Media query overrides for mobile */
+@media(max-width:768px){
+  .hamburger{ display:block; }
+  /* … your nav-left overrides here … */
+}
+
     /* Mobile dropdown menu */
 .nav-left {
   display: none;
@@ -521,16 +550,24 @@
 
 <script>
   // ---------- Mobile hamburger toggle ----------
-// ---------- Mobile hamburger toggle ----------
 const hamburger = document.getElementById('hamburger');
 const navCats = document.getElementById('navCats');
 
 hamburger?.addEventListener('click', (e) => {
-  e.stopPropagation(); // prevent immediate close
+  e.stopPropagation();
   const isOpen = navCats.classList.toggle('open');
-  hamburger.classList.toggle('open', isOpen); // 🔹 add class for X animation
+  hamburger.classList.toggle('open', isOpen); // 🔹 this line is required
   hamburger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
 });
+
+document.addEventListener('click', (e) => {
+  if (!navCats.contains(e.target) && !hamburger.contains(e.target)) {
+    navCats.classList.remove('open');
+    hamburger.classList.remove('open'); // 🔹 closes the X
+    hamburger.setAttribute('aria-expanded', 'false');
+  }
+});
+
 
 // ---------- Close when clicking outside ----------
 document.addEventListener('click', (e) => {

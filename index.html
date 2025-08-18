@@ -59,7 +59,7 @@
   }
   /* Hamburger (mobile) */
   .hamburger{ display:none; margin-left:auto; cursor:pointer; }
-  .hamburger span{ display:block; width:26px; height:3px; background:var(--brand-dark); margin:5px 0; }
+  .hamburger span{ display:block; width:26px; height:3px; background:var(--brand-dark); margin:5px 0; transition:0.3s; }
   /* Categories row */
   .nav-left{ display:flex; gap:6px; flex-wrap:wrap; align-items:center; }
   .nav-item{ position:relative; }
@@ -181,10 +181,23 @@
   @media (max-width: 768px){
     /* Hamburger visible */
     .hamburger{ display:block; }
-    /* Hide desktop cats row by default; show when nav is active */
-    .nav-left{ display:none; flex-direction:column; width:100%; padding-top:8px; }
-    .nav-left.open{ display:flex; }
-    .nav-item > a{ padding:10px 6px; border-radius:8px; }
+   
+    /* Mobile dropdown menu */
+.nav-left {
+  display: none;
+  flex-direction: column;
+  position: absolute;   /* make it float, not push content */
+  top: 60px;            /* adjust to your header height */
+  right: 10px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+  width: 220px;
+  padding: 10px;
+  z-index: 1000;
+}
+.nav-left.open { display: flex; }
+
     /* Drop downs behave as collapsible lists on mobile */
     .dropdown{ position:static; display:none; border:0; box-shadow:none; border-left:3px solid #eee; margin:4px 0 10px 10px; }
     .nav-item.open .dropdown{ display:block; }
@@ -508,13 +521,26 @@
 
 <script>
   // ---------- Mobile hamburger toggle ----------
-  const hamburger = document.getElementById('hamburger');
-  //const mobileMenu = document.getElementById('mobileMenu');
-  const navCats = document.getElementById('navCats');
-  hamburger?.addEventListener('click', () => {
-    const isOpen = navCats.classList.toggle('open');
-    hamburger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-  });
+// ---------- Mobile hamburger toggle ----------
+const hamburger = document.getElementById('hamburger');
+const navCats = document.getElementById('navCats');
+
+hamburger?.addEventListener('click', (e) => {
+  e.stopPropagation(); // prevent immediate close
+  const isOpen = navCats.classList.toggle('open');
+  hamburger.classList.toggle('open', isOpen); // 🔹 add class for X animation
+  hamburger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+});
+
+// ---------- Close when clicking outside ----------
+document.addEventListener('click', (e) => {
+  if (!navCats.contains(e.target) && !hamburger.contains(e.target)) {
+    navCats.classList.remove('open');
+    hamburger.classList.remove('open');
+    hamburger.setAttribute('aria-expanded', 'false');
+  }
+});
+
 
   // ---------- Mobile submenu toggle (tap to open) ----------
   // Only activate on small screens

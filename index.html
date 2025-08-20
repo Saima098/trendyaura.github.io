@@ -207,7 +207,17 @@
 
 /* 🔹 Media query overrides for mobile */
 @media(max-width:768px){
-  .hamburger{ display:block; }
+  /* Hamburger visible */
+    .hamburger{ display:block; }
+    /* Hide desktop cats row by default; show when nav is active */
+    .nav-left{ display:none; flex-direction:column; width:100%; padding-top:8px; }
+    .nav-left.open{ display:flex; }
+    .nav-item > a{ padding:10px 6px; border-radius:8px; }
+    
+    /* Hide desktop cats row by default; show when nav is active */
+    .nav-left{ display:none; flex-direction:column; width:100%; padding-top:8px; }
+    .nav-left.open{ display:flex; }
+    .nav-item > a{ padding:10px 6px; border-radius:8px; }
   /* … your nav-left overrides here … */
 }
 
@@ -225,7 +235,7 @@
   padding: 10px;
   z-index: 1000;
 }
-.nav-left.open { display: flex; }
+//.nav-left.open { display: flex; }
 
     /* Drop downs behave as collapsible lists on mobile */
     .dropdown{ position:static; display:none; border:0; box-shadow:none; border-left:3px solid #eee; margin:4px 0 10px 10px; }

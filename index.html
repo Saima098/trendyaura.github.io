@@ -235,7 +235,7 @@
 
 
     /* Hide desktop search, show mobile search under nav */
-    .search-bar{ display:none; }
+    .search-results{ display:none; }
     .mobile-search{ display:block; }
 
   
@@ -244,7 +244,7 @@
     .nav-item.open .dropdown{ display:block; }
 
     /* Hide desktop search, show mobile search under nav */
-    .search-bar{ display:none; }
+    .search-results{ display:none; }
     .mobile-search{ display:block; }
 
     /* Keep two columns (main + right rail) even on mobile as requested */
@@ -352,7 +352,9 @@
 
     <!-- Desktop search -->
     <div class="search-bar" id="desktopSearch">
-      <input type="search" placeholder="Search products, guides…" aria-label="Search">
+     <div id="searchResults" class="search-results"></div>
+
+      <input type="search" id="searchInput" placeholder="Search products…" />
     </div>
 
     <!-- Mobile hamburger -->
@@ -631,6 +633,83 @@ document.addEventListener('click', (e) => {
   const langAr = document.getElementById('lang-ar');
   langEn?.addEventListener('click', (e)=>{ e.preventDefault(); langEn.classList.add('active'); langAr.classList.remove('active'); document.documentElement.dir='ltr'; });
   langAr?.addEventListener('click', (e)=>{ e.preventDefault(); langAr.classList.add('active'); langEn.classList.remove('active'); document.documentElement.dir='rtl'; });
+  <script>
+(() => {
+  // Keywords list for pages
+  const pages = [
+    { title: "Positive Vibes at Home", keywords: "positive vibes home", url: "positive-vibes.html" },
+    { title: "Luxury Looks for Less", keywords: "budget decor luxury looks", url: "budgetdecor.html" },
+    { title: "Decor & Garden Picks", keywords: "garden decor plants", url: "decorgarden.html" },
+    { title: "Clothes Storage & Organization", keywords: "clothes storage organizing", url: "Organizingclothes.html" },
+    { title: "Study Smart with AI", keywords: "study smart ai learning", url: "study.html" },
+    { title: "Smart Home Essentials", keywords: "smart home living devices", url: "smart-home-essentials.html" },
+    { title: "Best Game Controllers", keywords: "game controllers gaming", url: "games.html" },
+    { title: "Skincare Picks", keywords: "skincare beauty face", url: "skincare.html" },
+    { title: "Best Hair Tools of 2025", keywords: "haircare tools styling", url: "haircare.html" },
+    { title: "DIY Glass Skin Routine", keywords: "glass skin diy", url: "glassskin.html" },
+    { title: "Best Picks to Buy for Kids", keywords: "kids baby products", url: "bestpickid.html" },
+    { title: "Kitchen Tools", keywords: "kitchen tools cooking", url: "kitchen-tools.html" },
+    { title: "Quick Recipes", keywords: "recipes quick food", url: "recipes.html" },
+    { title: "Best Diet for Weight Loss", keywords: "diet weight loss", url: "diet.html" },
+    { title: "Latest Deals", keywords: "deals offers gadgets", url: "deals.html" },
+    { title: "Gadgets Under $50", keywords: "gadgets under 50 cheap", url: "gadgets-under-50.html" },
+  ];
+
+  const input = document.getElementById('searchInput');
+  const results = document.getElementById('searchResults');
+
+  // Utility to clear old suggestions
+  const clearResults = () => { results.innerHTML = ''; results.style.display = 'none'; };
+
+  // Update suggestions on input
+  input.addEventListener('input', () => {
+    const q = input.value.trim().toLowerCase();
+    clearResults();
+
+    if (!q) return;
+
+    // Filter matching items
+    const matches = pages.filter(p => p.keywords.includes(q) || p.title.toLowerCase().includes(q));
+
+    if (matches.length) {
+      matches.slice(0, 6).forEach(p => {
+        const div = document.createElement('div');
+        div.className = 'result-item';
+        div.textContent = p.title;
+        div.addEventListener('click', () => { window.location.href = p.url; });
+        results.appendChild(div);
+      });
+      results.style.display = 'block';
+    }
+  });
+
+  // Navigate with keyboard and close on outside click
+  let selectedIdx = -1;
+  input.addEventListener('keydown', e => {
+    const items = Array.from(results.querySelectorAll('.result-item'));
+    if (!items.length) return;
+
+    if (e.key === 'ArrowDown') {
+      selectedIdx = (selectedIdx + 1) % items.length;
+      e.preventDefault();
+      items.forEach(el => el.classList.remove('highlight'));
+      items[selectedIdx].classList.add('highlight');
+    } else if (e.key === 'ArrowUp') {
+      selectedIdx = (selectedIdx - 1 + items.length) % items.length;
+      e.preventDefault();
+      items.forEach(el => el.classList.remove('highlight'));
+      items[selectedIdx].classList.add('highlight');
+    } else if (e.key === 'Enter' && selectedIdx > -1) {
+      items[selectedIdx].click();
+    }
+  });
+
+  document.addEventListener('click', e => {
+    if (!results.contains(e.target) && e.target !== input) clearResults();
+  });
+})();
+</script>
+
 </script>
 </body>
 </html>

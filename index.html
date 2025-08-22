@@ -26,7 +26,14 @@
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     background:var(--muted);
     color:#333;
+    transition: all 0.3s ease;
   }
+  
+  /* Arabic font for better readability */
+  [dir="rtl"] {
+    font-family: "Segoe UI", "Tahoma", "Arial", sans-serif;
+  }
+  
   a{ color:inherit; text-decoration:none; }
   img{ max-width:100%; display:block; }
 
@@ -38,7 +45,7 @@
     padding:8px 16px; border-bottom:1px solid rgba(255,255,255,.08);
   }
   .language-toggle{ display:flex; gap:10px; align-items:center; }
-  .language-toggle a{ color:#fff; font-weight:600; opacity:.9; }
+  .language-toggle a{ color:#fff; font-weight:600; opacity:.9; cursor:pointer; }
   .language-toggle a.active{ text-decoration:underline; opacity:1; }
 
   /* ---------- Header ---------- */
@@ -57,8 +64,15 @@
     max-width:1200px; margin:0 auto; padding:10px 12px;
     display:flex; align-items:center; gap:14px;
   }
+  
+  /* RTL adjustments */
+  [dir="rtl"] nav {
+    flex-direction: row-reverse;
+  }
+  
   /* Hamburger (mobile) */
   .hamburger{ display:none; margin-left:auto; cursor:pointer; }
+  [dir="rtl"] .hamburger{ margin-left:0; margin-right:auto; }
   .hamburger span{ display:block; width:26px; height:3px; background:var(--brand-dark); margin:5px 0; border-radius:2px; transition:all 0.3s ease; }
   
   /* Hamburger transforms when open */
@@ -74,6 +88,7 @@
 
   /* Categories row */
   .nav-left{ display:flex; gap:6px; flex-wrap:wrap; align-items:center; }
+  [dir="rtl"] .nav-left{ flex-direction: row-reverse; }
   .nav-item{ position:relative; }
   .nav-item > a{
     display:block; padding:8px 10px; border-radius:8px; font-weight:600; color:var(--brand-dark);
@@ -85,6 +100,7 @@
     background:#fff; border:1px solid var(--border); border-radius:10px;
     min-width:200px; box-shadow:var(--shadow); overflow:hidden;
   }
+  [dir="rtl"] .dropdown{ left:auto; right:0; }
   .dropdown a{ display:block; padding:10px 12px; color:#2c3e50; }
   .dropdown a:hover{ background:#f7f7f7; }
   .nav-item:hover .dropdown{ display:block; }
@@ -93,6 +109,7 @@
   .search-bar{
     margin-left:auto; display:flex; align-items:center; gap:8px; position:relative;
   }
+  [dir="rtl"] .search-bar{ margin-left:0; margin-right:auto; }
   .search-bar input{
     width:280px; max-width:36vw;
     padding:9px 14px; border:1px solid #ccc; border-radius:999px; outline:none;
@@ -246,11 +263,13 @@
       padding:10px;
       z-index:1000;
     }
+    [dir="rtl"] .nav-left{ right:auto; left:10px; }
     .nav-left.open{ display:flex; }
     .nav-item > a{ padding:10px 6px; border-radius:8px; }
     
     /* Drop downs behave as collapsible lists on mobile */
     .dropdown{ position:static; display:none; border:0; box-shadow:none; border-left:3px solid #eee; margin:4px 0 10px 10px; }
+    [dir="rtl"] .dropdown{ border-left:0; border-right:3px solid #eee; margin:4px 10px 10px 0; }
     .nav-item.open .dropdown{ display:block; }
 
     /* Keep two columns (main + right rail) even on mobile as requested */
@@ -262,6 +281,10 @@
     /* Make sticky feel nicer on small screens */
     .nav-wrap{ top:42px; }
   }
+
+  /* Hidden content for language switching */
+  .lang-content { display: none; }
+  .lang-content.active { display: block; }
 </style>
 </head>
 <body>
@@ -279,9 +302,16 @@
 
 <!-- Site header -->
 <header>
-  <h1>Modexa</h1>
-  <p>Your Daily Dose of Lifestyle, Home & Tech Finds</p>
-  <p>We carefully review and recommend only the best products, give clever tips, and easy guides so your home, lifestyle, and tech choices feel simple, smart, and fun! Dive in and discover something amazing today</p>
+  <div class="lang-content active" data-lang="en">
+    <h1>Modexa</h1>
+    <p>Your Daily Dose of Lifestyle, Home & Tech Finds</p>
+    <p>We carefully review and recommend only the best products, give clever tips, and easy guides so your home, lifestyle, and tech choices feel simple, smart, and fun! Dive in and discover something amazing today</p>
+  </div>
+  <div class="lang-content" data-lang="ar">
+    <h1>موديكسا</h1>
+    <p>جرعتك اليومية من نمط الحياة والمنزل واكتشافات التكنولوجيا</p>
+    <p>نراجع بعناية ونوصي بأفضل المنتجات فقط، ونقدم نصائح ذكية، وأدلة سهلة حتى تشعر بأن خيارات منزلك ونمط حياتك والتكنولوجيا بسيطة وذكية وممتعة! اغوص واكتشف شيئًا مذهلاً اليوم</p>
+  </div>
 </header>
 
 <!-- Main nav (sticky) -->
@@ -291,74 +321,164 @@
     <div class="nav-left" id="navCats">
       <!-- HomeGlow -->
       <div class="nav-item">
-        <a href="#homeglow">HomeGlow</a>
+        <a href="#homeglow">
+          <span class="lang-content active" data-lang="en">HomeGlow</span>
+          <span class="lang-content" data-lang="ar">إشراق المنزل</span>
+        </a>
         <div class="dropdown">
-          <a href="positive-vibes.html">Positive Vibes at Home</a>
-          <a href="budgetdecor.html">Luxury Looks for Less</a>
-          <a href="decorgarden.html">Decor & Garden Picks</a>
-          <a href="Organizingclothes.html">Clothes Storage & Organization</a>
+          <a href="positive-vibes.html">
+            <span class="lang-content active" data-lang="en">Positive Vibes at Home</span>
+            <span class="lang-content" data-lang="ar">أجواء إيجابية في المنزل</span>
+          </a>
+          <a href="budgetdecor.html">
+            <span class="lang-content active" data-lang="en">Luxury Looks for Less</span>
+            <span class="lang-content" data-lang="ar">مظهر فاخر بأقل تكلفة</span>
+          </a>
+          <a href="decorgarden.html">
+            <span class="lang-content active" data-lang="en">Decor & Garden Picks</span>
+            <span class="lang-content" data-lang="ar">اختيارات الديكور والحديقة</span>
+          </a>
+          <a href="Organizingclothes.html">
+            <span class="lang-content active" data-lang="en">Clothes Storage & Organization</span>
+            <span class="lang-content" data-lang="ar">تخزين وتنظيم الملابس</span>
+          </a>
         </div>
       </div>
       <!-- Tech -->
       <div class="nav-item">
-        <a href="#tech">Tech</a>
+        <a href="#tech">
+          <span class="lang-content active" data-lang="en">Tech</span>
+          <span class="lang-content" data-lang="ar">التكنولوجيا</span>
+        </a>
         <div class="dropdown">
-          <a href="study.html">Study Smart with AI</a>
-          <a href="smart-home-essentials.html">Smart Living</a>
-          <a href="games.html">Best Game Controllers</a>
+          <a href="study.html">
+            <span class="lang-content active" data-lang="en">Study Smart with AI</span>
+            <span class="lang-content" data-lang="ar">ادرس بذكاء مع الذكاء الاصطناعي</span>
+          </a>
+          <a href="smart-home-essentials.html">
+            <span class="lang-content active" data-lang="en">Smart Living</span>
+            <span class="lang-content" data-lang="ar">الحياة الذكية</span>
+          </a>
+          <a href="games.html">
+            <span class="lang-content active" data-lang="en">Best Game Controllers</span>
+            <span class="lang-content" data-lang="ar">أفضل أجهزة تحكم الألعاب</span>
+          </a>
         </div>
       </div>
       <!-- Lifestyle -->
       <div class="nav-item">
-        <a href="#lifestyle">Lifestyle</a>
+        <a href="#lifestyle">
+          <span class="lang-content active" data-lang="en">Lifestyle</span>
+          <span class="lang-content" data-lang="ar">نمط الحياة</span>
+        </a>
         <div class="dropdown">
-          <a href="wellbeing.html">Wellbeing & Self-Care</a>
-          <a href="routine.html">Routine Essentials</a>
-          <a href="weightlose.html">Lose 7lbs in 30 Days</a>
-          <a href="mummytommy.html">Fix Mummy Tummy Naturally</a>
+          <a href="wellbeing.html">
+            <span class="lang-content active" data-lang="en">Wellbeing & Self-Care</span>
+            <span class="lang-content" data-lang="ar">الرفاهية والعناية بالذات</span>
+          </a>
+          <a href="routine.html">
+            <span class="lang-content active" data-lang="en">Routine Essentials</span>
+            <span class="lang-content" data-lang="ar">أساسيات الروتين</span>
+          </a>
+          <a href="weightlose.html">
+            <span class="lang-content active" data-lang="en">Lose 7lbs in 30 Days</span>
+            <span class="lang-content" data-lang="ar">اخسر 7 أرطال في 30 يومًا</span>
+          </a>
+          <a href="mummytommy.html">
+            <span class="lang-content active" data-lang="en">Fix Mummy Tummy Naturally</span>
+            <span class="lang-content" data-lang="ar">إصلاح بطن الأم طبيعيًا</span>
+          </a>
         </div>
       </div>
       <!-- Beauty -->
       <div class="nav-item">
-        <a href="#beauty">Beauty</a>
+        <a href="#beauty">
+          <span class="lang-content active" data-lang="en">Beauty</span>
+          <span class="lang-content" data-lang="ar">الجمال</span>
+        </a>
         <div class="dropdown">
-          <a href="skincare.html">Skincare Picks</a>
-          <a href="haircare.html">Best Hair Tools</a>
-          <a href="skincare-tools.html">2025's Best Skincare Tools</a>
-          <a href="glassskin.html">DIY Glass Skin</a>
-          <a href="Thinhair.html">Hair Loss Treatment</a>
-          <a href="redlight.html">Red Light Glow</a>
+          <a href="skincare.html">
+            <span class="lang-content active" data-lang="en">Skincare Picks</span>
+            <span class="lang-content" data-lang="ar">اختيارات العناية بالبشرة</span>
+          </a>
+          <a href="haircare.html">
+            <span class="lang-content active" data-lang="en">Best Hair Tools</span>
+            <span class="lang-content" data-lang="ar">أفضل أدوات الشعر</span>
+          </a>
+          <a href="skincare-tools.html">
+            <span class="lang-content active" data-lang="en">2025's Best Skincare Tools</span>
+            <span class="lang-content" data-lang="ar">أفضل أدوات العناية بالبشرة لعام 2025</span>
+          </a>
+          <a href="glassskin.html">
+            <span class="lang-content active" data-lang="en">DIY Glass Skin</span>
+            <span class="lang-content" data-lang="ar">بشرة زجاجية بنفسك</span>
+          </a>
+          <a href="Thinhair.html">
+            <span class="lang-content active" data-lang="en">Hair Loss Treatment</span>
+            <span class="lang-content" data-lang="ar">علاج تساقط الشعر</span>
+          </a>
+          <a href="redlight.html">
+            <span class="lang-content active" data-lang="en">Red Light Glow</span>
+            <span class="lang-content" data-lang="ar">توهج الضوء الأحمر</span>
+          </a>
         </div>
       </div>
       <!-- Baby & Kids -->
       <div class="nav-item">
-        <a href="#baby-kids">Baby & Kids</a>
+        <a href="#baby-kids">
+          <span class="lang-content active" data-lang="en">Baby & Kids</span>
+          <span class="lang-content" data-lang="ar">الأطفال والرضع</span>
+        </a>
         <div class="dropdown">
-          <a href="bestpickid.html">Best Picks to Buy for Kids</a>
+          <a href="bestpickid.html">
+            <span class="lang-content active" data-lang="en">Best Picks to Buy for Kids</span>
+            <span class="lang-content" data-lang="ar">أفضل اختيارات للأطفال</span>
+          </a>
         </div>
       </div>
       <!-- Taste & Tools -->
       <div class="nav-item">
-        <a href="#taste-tools">Taste & Tools</a>
+        <a href="#taste-tools">
+          <span class="lang-content active" data-lang="en">Taste & Tools</span>
+          <span class="lang-content" data-lang="ar">الطعم والأدوات</span>
+        </a>
         <div class="dropdown">
-          <a href="kitchen-tools.html">Kitchen Tools</a>
-          <a href="recipes.html">Quick Recipes</a>
-          <a href="diet.html">Best Diet for Weight Loss</a>
+          <a href="kitchen-tools.html">
+            <span class="lang-content active" data-lang="en">Kitchen Tools</span>
+            <span class="lang-content" data-lang="ar">أدوات المطبخ</span>
+          </a>
+          <a href="recipes.html">
+            <span class="lang-content active" data-lang="en">Quick Recipes</span>
+            <span class="lang-content" data-lang="ar">وصفات سريعة</span>
+          </a>
+          <a href="diet.html">
+            <span class="lang-content active" data-lang="en">Best Diet for Weight Loss</span>
+            <span class="lang-content" data-lang="ar">أفضل نظام غذائي لفقدان الوزن</span>
+          </a>
         </div>
       </div>
       <!-- Deals -->
       <div class="nav-item">
-        <a href="#deals">Deals</a>
+        <a href="#deals">
+          <span class="lang-content active" data-lang="en">Deals</span>
+          <span class="lang-content" data-lang="ar">العروض</span>
+        </a>
         <div class="dropdown">
-          <a href="deals.html">Latest Deals</a>
-          <a href="gadgets-under-50.html">Gadgets Under $50</a>
+          <a href="deals.html">
+            <span class="lang-content active" data-lang="en">Latest Deals</span>
+            <span class="lang-content" data-lang="ar">أحدث العروض</span>
+          </a>
+          <a href="gadgets-under-50.html">
+            <span class="lang-content active" data-lang="en">Gadgets Under $50</span>
+            <span class="lang-content" data-lang="ar">أدوات تحت 50 دولار</span>
+          </a>
         </div>
       </div>
     </div>
 
     <!-- Desktop search -->
     <div class="search-bar" id="desktopSearch">
-      <input type="text" id="searchInput" placeholder="Search articles, guides..." autocomplete="off">
+      <input type="text" id="searchInput" autocomplete="off">
       <div class="search-suggestions" id="searchSuggestions"></div>
     </div>
 
@@ -374,7 +494,7 @@
 <!-- Mobile search (separate section) -->
 <div class="mobile-search">
   <div class="inner">
-    <input type="text" id="mobileSearchInput" placeholder="Search articles, guides..." autocomplete="off">
+    <input type="text" id="mobileSearchInput" autocomplete="off">
     <div class="search-suggestions" id="mobileSearchSuggestions"></div>
   </div>
 </div>
@@ -384,21 +504,37 @@
   <!-- Left: Featured content -->
   <div class="featured">
     <img src="https://via.placeholder.com/600x300/e67e22/ffffff?text=Featured+Article" alt="Featured">
-    <h2>Transform Your Home Into a Cozy Haven</h2>
-    <p>Discover the latest home decor trends and smart tech solutions that will make your space both beautiful and functional. From budget-friendly DIY projects to high-tech gadgets, we've got you covered.</p>
-    <a href="#" class="cta">Read Full Guide →</a>
+    <div class="lang-content active" data-lang="en">
+      <h2>Transform Your Home Into a Cozy Haven</h2>
+      <p>Discover the latest home decor trends and smart tech solutions that will make your space both beautiful and functional. From budget-friendly DIY projects to high-tech gadgets, we've got you covered.</p>
+      <a href="#" class="cta">Read Full Guide →</a>
+    </div>
+    <div class="lang-content" data-lang="ar">
+      <h2>حول منزلك إلى ملاذ مريح</h2>
+      <p>اكتشف أحدث اتجاهات ديكور المنزل والحلول التقنية الذكية التي ستجعل مساحتك جميلة وعملية. من مشاريع DIY الصديقة للميزانية إلى الأدوات عالية التقنية، نحن نغطيك.</p>
+      <a href="#" class="cta">اقرأ الدليل الكامل ←</a>
+    </div>
   </div>
 
   <!-- Right: News rail -->
   <div class="news-rail">
-    <div class="news-header">Latest Updates</div>
+    <div class="news-header">
+      <span class="lang-content active" data-lang="en">Latest Updates</span>
+      <span class="lang-content" data-lang="ar">آخر التحديثات</span>
+    </div>
     <div class="news-slides">
       <div class="news-slide active">
         <a href="#" class="news-card">
           <img src="https://via.placeholder.com/300x180/3498db/ffffff?text=Tech+News" alt="Tech News">
           <div class="meta">
-            <h4>Smart Home Gadgets Under $50</h4>
-            <p>Discover amazing smart home devices that won't break the bank. From smart plugs to LED strips, these gadgets will upgrade your home...</p>
+            <div class="lang-content active" data-lang="en">
+              <h4>Smart Home Gadgets Under $50</h4>
+              <p>Discover amazing smart home devices that won't break the bank. From smart plugs to LED strips, these gadgets will upgrade your home...</p>
+            </div>
+            <div class="lang-content" data-lang="ar">
+              <h4>أدوات منزلية ذكية تحت 50 دولار</h4>
+              <p>اكتشف أجهزة منزلية ذكية مذهلة لن تكسر ميزانيتك. من المقابس الذكية إلى شرائط LED، هذه الأدوات ستطور منزلك...</p>
+            </div>
           </div>
         </a>
       </div>
@@ -406,8 +542,14 @@
         <a href="#" class="news-card">
           <img src="https://via.placeholder.com/300x180/e74c3c/ffffff?text=Beauty+Tips" alt="Beauty">
           <div class="meta">
-            <h4>DIY Glass Skin Routine</h4>
-            <p>Achieve that coveted glass skin look with these simple steps and affordable products. No expensive treatments needed...</p>
+            <div class="lang-content active" data-lang="en">
+              <h4>DIY Glass Skin Routine</h4>
+              <p>Achieve that coveted glass skin look with these simple steps and affordable products. No expensive treatments needed...</p>
+            </div>
+            <div class="lang-content" data-lang="ar">
+              <h4>روتين البشرة الزجاجية بنفسك</h4>
+              <p>احصلي على مظهر البشرة الزجاجية المرغوب فيه بهذه الخطوات البسيطة والمنتجات المعقولة التكلفة. لا حاجة لعلاجات باهظة الثمن...</p>
+            </div>
           </div>
         </a>
       </div>
@@ -415,8 +557,14 @@
         <a href="#" class="news-card">
           <img src="https://via.placeholder.com/300x180/2ecc71/ffffff?text=Lifestyle" alt="Lifestyle">
           <div class="meta">
-            <h4>Weight Loss Success Stories</h4>
-            <p>Real people share their journey to losing weight naturally. Get inspired and learn their secrets to sustainable weight loss...</p>
+            <div class="lang-content active" data-lang="en">
+              <h4>Weight Loss Success Stories</h4>
+              <p>Real people share their journey to losing weight naturally. Get inspired and learn their secrets to sustainable weight loss...</p>
+            </div>
+            <div class="lang-content" data-lang="ar">
+              <h4>قصص نجاح فقدان الوزن</h4>
+              <p>أشخاص حقيقيون يشاركون رحلتهم لفقدان الوزن طبيعياً. استلهمي وتعلمي أسرارهم لفقدان الوزن المستدام...</p>
+            </div>
           </div>
         </a>
       </div>
@@ -427,27 +575,48 @@
 <!-- Quick Picks Section -->
 <div class="section">
   <div class="section-card">
-    <h2>🚀 Quick Picks</h2>
+    <h2>
+      <span class="lang-content active" data-lang="en">🚀 Quick Picks</span>
+      <span class="lang-content" data-lang="ar">🚀 اختيارات سريعة</span>
+    </h2>
     <div class="cards">
       <div class="card">
         <img src="https://via.placeholder.com/220x140/9b59b6/ffffff?text=Smart+Home" alt="Smart Home">
         <div class="content">
-          <h3>Smart Home Essentials</h3>
-          <p>Transform your home with these must-have smart devices.</p>
+          <div class="lang-content active" data-lang="en">
+            <h3>Smart Home Essentials</h3>
+            <p>Transform your home with these must-have smart devices.</p>
+          </div>
+          <div class="lang-content" data-lang="ar">
+            <h3>أساسيات المنزل الذكي</h3>
+            <p>حول منزلك بهذه الأجهزة الذكية الضرورية.</p>
+          </div>
         </div>
       </div>
       <div class="card">
         <img src="https://via.placeholder.com/220x140/f39c12/ffffff?text=Skincare" alt="Skincare">
         <div class="content">
-          <h3>Glowing Skin Secrets</h3>
-          <p>Discover the best skincare routines for radiant skin.</p>
+          <div class="lang-content active" data-lang="en">
+            <h3>Glowing Skin Secrets</h3>
+            <p>Discover the best skincare routines for radiant skin.</p>
+          </div>
+          <div class="lang-content" data-lang="ar">
+            <h3>أسرار البشرة المتوهجة</h3>
+            <p>اكتشفي أفضل روتين للعناية بالبشرة للحصول على بشرة مشرقة.</p>
+          </div>
         </div>
       </div>
       <div class="card">
         <img src="https://via.placeholder.com/220x140/1abc9c/ffffff?text=Kitchen" alt="Kitchen">
         <div class="content">
-          <h3>Kitchen Game Changers</h3>
-          <p>Tools that will revolutionize your cooking experience.</p>
+          <div class="lang-content active" data-lang="en">
+            <h3>Kitchen Game Changers</h3>
+            <p>Tools that will revolutionize your cooking experience.</p>
+          </div>
+          <div class="lang-content" data-lang="ar">
+            <h3>أدوات المطبخ المغيرة للعبة</h3>
+            <p>أدوات ستثور تجربة الطبخ لديك.</p>
+          </div>
         </div>
       </div>
     </div>
@@ -455,194 +624,284 @@
 </div>
 
 <!-- Category Sections -->
-<div class="category-section">
+<div class="category-section" id="homeglow">
   <div class="category-card">
-    <h2 class="category-title">🏠 HomeGlow</h2>
+    <h2 class="category-title">
+      <span class="lang-content active" data-lang="en">🏠 HomeGlow</span>
+      <span class="lang-content" data-lang="ar">🏠 إشراق المنزل</span>
+    </h2>
     <div class="subcategory-grid">
       <div class="subcategory">
         <a href="positive-vibes.html">
           <img src="https://via.placeholder.com/180x120/e67e22/ffffff?text=Positive+Vibes" alt="Positive Vibes">
-          <h4>Positive Vibes at Home</h4>
+          <h4>
+            <span class="lang-content active" data-lang="en">Positive Vibes at Home</span>
+            <span class="lang-content" data-lang="ar">أجواء إيجابية في المنزل</span>
+          </h4>
         </a>
       </div>
       <div class="subcategory">
         <a href="budgetdecor.html">
           <img src="https://via.placeholder.com/180x120/3498db/ffffff?text=Budget+Decor" alt="Budget Decor">
-          <h4>Luxury Looks for Less</h4>
+          <h4>
+            <span class="lang-content active" data-lang="en">Luxury Looks for Less</span>
+            <span class="lang-content" data-lang="ar">مظهر فاخر بأقل تكلفة</span>
+          </h4>
         </a>
       </div>
       <div class="subcategory">
         <a href="decorgarden.html">
           <img src="https://via.placeholder.com/180x120/2ecc71/ffffff?text=Garden" alt="Garden">
-          <h4>Decor & Garden Picks</h4>
+          <h4>
+            <span class="lang-content active" data-lang="en">Decor & Garden Picks</span>
+            <span class="lang-content" data-lang="ar">اختيارات الديكور والحديقة</span>
+          </h4>
         </a>
       </div>
       <div class="subcategory">
         <a href="Organizingclothes.html">
           <img src="https://via.placeholder.com/180x120/9b59b6/ffffff?text=Organization" alt="Organization">
-          <h4>Clothes Storage & Organization</h4>
+          <h4>
+            <span class="lang-content active" data-lang="en">Clothes Storage & Organization</span>
+            <span class="lang-content" data-lang="ar">تخزين وتنظيم الملابس</span>
+          </h4>
         </a>
       </div>
     </div>
   </div>
 </div>
 
-<div class="category-section">
+<div class="category-section" id="tech">
   <div class="category-card">
-    <h2 class="category-title">💻 Tech</h2>
+    <h2 class="category-title">
+      <span class="lang-content active" data-lang="en">💻 Tech</span>
+      <span class="lang-content" data-lang="ar">💻 التكنولوجيا</span>
+    </h2>
     <div class="subcategory-grid">
       <div class="subcategory">
         <a href="study.html">
           <img src="https://via.placeholder.com/180x120/e74c3c/ffffff?text=AI+Study" alt="AI Study">
-          <h4>Study Smart with AI</h4>
+          <h4>
+            <span class="lang-content active" data-lang="en">Study Smart with AI</span>
+            <span class="lang-content" data-lang="ar">ادرس بذكاء مع الذكاء الاصطناعي</span>
+          </h4>
         </a>
       </div>
       <div class="subcategory">
         <a href="smart-home-essentials.html">
           <img src="https://via.placeholder.com/180x120/f39c12/ffffff?text=Smart+Living" alt="Smart Living">
-          <h4>Smart Living</h4>
+          <h4>
+            <span class="lang-content active" data-lang="en">Smart Living</span>
+            <span class="lang-content" data-lang="ar">الحياة الذكية</span>
+          </h4>
         </a>
       </div>
       <div class="subcategory">
         <a href="games.html">
           <img src="https://via.placeholder.com/180x120/1abc9c/ffffff?text=Gaming" alt="Gaming">
-          <h4>Best Game Controllers</h4>
+          <h4>
+            <span class="lang-content active" data-lang="en">Best Game Controllers</span>
+            <span class="lang-content" data-lang="ar">أفضل أجهزة تحكم الألعاب</span>
+          </h4>
         </a>
       </div>
     </div>
   </div>
 </div>
 
-<div class="category-section">
+<div class="category-section" id="lifestyle">
   <div class="category-card">
-    <h2 class="category-title">🌟 Lifestyle</h2>
+    <h2 class="category-title">
+      <span class="lang-content active" data-lang="en">🌟 Lifestyle</span>
+      <span class="lang-content" data-lang="ar">🌟 نمط الحياة</span>
+    </h2>
     <div class="subcategory-grid">
       <div class="subcategory">
         <a href="wellbeing.html">
           <img src="https://via.placeholder.com/180x120/8e44ad/ffffff?text=Wellbeing" alt="Wellbeing">
-          <h4>Wellbeing & Self-Care</h4>
+          <h4>
+            <span class="lang-content active" data-lang="en">Wellbeing & Self-Care</span>
+            <span class="lang-content" data-lang="ar">الرفاهية والعناية بالذات</span>
+          </h4>
         </a>
       </div>
       <div class="subcategory">
         <a href="routine.html">
           <img src="https://via.placeholder.com/180x120/16a085/ffffff?text=Routine" alt="Routine">
-          <h4>Routine Essentials</h4>
+          <h4>
+            <span class="lang-content active" data-lang="en">Routine Essentials</span>
+            <span class="lang-content" data-lang="ar">أساسيات الروتين</span>
+          </h4>
         </a>
       </div>
       <div class="subcategory">
         <a href="weightlose.html">
           <img src="https://via.placeholder.com/180x120/e67e22/ffffff?text=Weight+Loss" alt="Weight Loss">
-          <h4>Lose 7lbs in 30 Days</h4>
+          <h4>
+            <span class="lang-content active" data-lang="en">Lose 7lbs in 30 Days</span>
+            <span class="lang-content" data-lang="ar">اخسر 7 أرطال في 30 يومًا</span>
+          </h4>
         </a>
       </div>
       <div class="subcategory">
         <a href="mummytommy.html">
           <img src="https://via.placeholder.com/180x120/d35400/ffffff?text=Mummy+Tummy" alt="Mummy Tummy">
-          <h4>Fix Mummy Tummy Naturally</h4>
+          <h4>
+            <span class="lang-content active" data-lang="en">Fix Mummy Tummy Naturally</span>
+            <span class="lang-content" data-lang="ar">إصلاح بطن الأم طبيعيًا</span>
+          </h4>
         </a>
       </div>
     </div>
   </div>
 </div>
 
-<div class="category-section">
+<div class="category-section" id="beauty">
   <div class="category-card">
-    <h2 class="category-title">💄 Beauty</h2>
+    <h2 class="category-title">
+      <span class="lang-content active" data-lang="en">💄 Beauty</span>
+      <span class="lang-content" data-lang="ar">💄 الجمال</span>
+    </h2>
     <div class="subcategory-grid">
       <div class="subcategory">
         <a href="skincare.html">
           <img src="https://via.placeholder.com/180x120/e91e63/ffffff?text=Skincare" alt="Skincare">
-          <h4>Skincare Picks</h4>
+          <h4>
+            <span class="lang-content active" data-lang="en">Skincare Picks</span>
+            <span class="lang-content" data-lang="ar">اختيارات العناية بالبشرة</span>
+          </h4>
         </a>
       </div>
       <div class="subcategory">
         <a href="haircare.html">
           <img src="https://via.placeholder.com/180x120/9c27b0/ffffff?text=Hair+Tools" alt="Hair Tools">
-          <h4>Best Hair Tools</h4>
+          <h4>
+            <span class="lang-content active" data-lang="en">Best Hair Tools</span>
+            <span class="lang-content" data-lang="ar">أفضل أدوات الشعر</span>
+          </h4>
         </a>
       </div>
       <div class="subcategory">
         <a href="skincare-tools.html">
           <img src="https://via.placeholder.com/180x120/673ab7/ffffff?text=Skincare+Tools" alt="Skincare Tools">
-          <h4>2025's Best Skincare Tools</h4>
+          <h4>
+            <span class="lang-content active" data-lang="en">2025's Best Skincare Tools</span>
+            <span class="lang-content" data-lang="ar">أفضل أدوات العناية بالبشرة لعام 2025</span>
+          </h4>
         </a>
       </div>
       <div class="subcategory">
         <a href="glassskin.html">
           <img src="https://via.placeholder.com/180x120/3f51b5/ffffff?text=Glass+Skin" alt="Glass Skin">
-          <h4>DIY Glass Skin</h4>
+          <h4>
+            <span class="lang-content active" data-lang="en">DIY Glass Skin</span>
+            <span class="lang-content" data-lang="ar">بشرة زجاجية بنفسك</span>
+          </h4>
         </a>
       </div>
       <div class="subcategory">
         <a href="Thinhair.html">
           <img src="https://via.placeholder.com/180x120/2196f3/ffffff?text=Hair+Loss" alt="Hair Loss">
-          <h4>Hair Loss Treatment</h4>
+          <h4>
+            <span class="lang-content active" data-lang="en">Hair Loss Treatment</span>
+            <span class="lang-content" data-lang="ar">علاج تساقط الشعر</span>
+          </h4>
         </a>
       </div>
       <div class="subcategory">
         <a href="redlight.html">
           <img src="https://via.placeholder.com/180x120/ff5722/ffffff?text=Red+Light" alt="Red Light">
-          <h4>Red Light Glow</h4>
+          <h4>
+            <span class="lang-content active" data-lang="en">Red Light Glow</span>
+            <span class="lang-content" data-lang="ar">توهج الضوء الأحمر</span>
+          </h4>
         </a>
       </div>
     </div>
   </div>
 </div>
 
-<div class="category-section">
+<div class="category-section" id="baby-kids">
   <div class="category-card">
-    <h2 class="category-title">👶 Baby & Kids</h2>
+    <h2 class="category-title">
+      <span class="lang-content active" data-lang="en">👶 Baby & Kids</span>
+      <span class="lang-content" data-lang="ar">👶 الأطفال والرضع</span>
+    </h2>
     <div class="subcategory-grid">
       <div class="subcategory">
         <a href="bestpickid.html">
           <img src="https://via.placeholder.com/180x120/4caf50/ffffff?text=Kids+Picks" alt="Kids Picks">
-          <h4>Best Picks to Buy for Kids</h4>
+          <h4>
+            <span class="lang-content active" data-lang="en">Best Picks to Buy for Kids</span>
+            <span class="lang-content" data-lang="ar">أفضل اختيارات للأطفال</span>
+          </h4>
         </a>
       </div>
     </div>
   </div>
 </div>
 
-<div class="category-section">
+<div class="category-section" id="taste-tools">
   <div class="category-card">
-    <h2 class="category-title">🍳 Taste & Tools</h2>
+    <h2 class="category-title">
+      <span class="lang-content active" data-lang="en">🍳 Taste & Tools</span>
+      <span class="lang-content" data-lang="ar">🍳 الطعم والأدوات</span>
+    </h2>
     <div class="subcategory-grid">
       <div class="subcategory">
         <a href="kitchen-tools.html">
           <img src="https://via.placeholder.com/180x120/ff9800/ffffff?text=Kitchen+Tools" alt="Kitchen Tools">
-          <h4>Kitchen Tools</h4>
+          <h4>
+            <span class="lang-content active" data-lang="en">Kitchen Tools</span>
+            <span class="lang-content" data-lang="ar">أدوات المطبخ</span>
+          </h4>
         </a>
       </div>
       <div class="subcategory">
         <a href="recipes.html">
           <img src="https://via.placeholder.com/180x120/795548/ffffff?text=Recipes" alt="Recipes">
-          <h4>Quick Recipes</h4>
+          <h4>
+            <span class="lang-content active" data-lang="en">Quick Recipes</span>
+            <span class="lang-content" data-lang="ar">وصفات سريعة</span>
+          </h4>
         </a>
       </div>
       <div class="subcategory">
         <a href="diet.html">
           <img src="https://via.placeholder.com/180x120/607d8b/ffffff?text=Diet" alt="Diet">
-          <h4>Best Diet for Weight Loss</h4>
+          <h4>
+            <span class="lang-content active" data-lang="en">Best Diet for Weight Loss</span>
+            <span class="lang-content" data-lang="ar">أفضل نظام غذائي لفقدان الوزن</span>
+          </h4>
         </a>
       </div>
     </div>
   </div>
 </div>
 
-<div class="category-section">
+<div class="category-section" id="deals">
   <div class="category-card">
-    <h2 class="category-title">💰 Deals</h2>
+    <h2 class="category-title">
+      <span class="lang-content active" data-lang="en">💰 Deals</span>
+      <span class="lang-content" data-lang="ar">💰 العروض</span>
+    </h2>
     <div class="subcategory-grid">
       <div class="subcategory">
         <a href="deals.html">
           <img src="https://via.placeholder.com/180x120/f44336/ffffff?text=Latest+Deals" alt="Latest Deals">
-          <h4>Latest Deals</h4>
+          <h4>
+            <span class="lang-content active" data-lang="en">Latest Deals</span>
+            <span class="lang-content" data-lang="ar">أحدث العروض</span>
+          </h4>
         </a>
       </div>
       <div class="subcategory">
         <a href="gadgets-under-50.html">
           <img src="https://via.placeholder.com/180x120/009688/ffffff?text=Under+$50" alt="Gadgets Under $50">
-          <h4>Gadgets Under $50</h4>
+          <h4>
+            <span class="lang-content active" data-lang="en">Gadgets Under $50</span>
+            <span class="lang-content" data-lang="ar">أدوات تحت 50 دولار</span>
+          </h4>
         </a>
       </div>
     </div>
@@ -650,35 +909,80 @@
 </div>
 
 <footer>
-  <p>&copy; 2025 Modexa. All rights reserved. | <a href="#">Privacy</a> | <a href="#">Terms</a></p>
+  <p>
+    <span class="lang-content active" data-lang="en">&copy; 2025 Modexa. All rights reserved. | <a href="#">Privacy</a> | <a href="#">Terms</a></span>
+    <span class="lang-content" data-lang="ar">&copy; 2025 موديكسا. جميع الحقوق محفوظة. | <a href="#">الخصوصية</a> | <a href="#">الشروط</a></span>
+  </p>
 </footer>
 
 <script>
-// Search data - add your actual pages and keywords here
+// Language System
+const translations = {
+  searchPlaceholder: {
+    en: "Search articles, guides...",
+    ar: "البحث في المقالات والأدلة..."
+  }
+};
+
+// Language switching functionality
+function switchLanguage(lang) {
+  // Store language preference
+  localStorage.setItem('preferredLanguage', lang);
+  
+  // Update document direction
+  document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+  document.documentElement.lang = lang;
+  
+  // Update language toggles
+  document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+  document.getElementById('lang-ar').classList.toggle('active', lang === 'ar');
+  
+  // Switch all content
+  document.querySelectorAll('.lang-content').forEach(element => {
+    element.classList.remove('active');
+  });
+  
+  document.querySelectorAll(`[data-lang="${lang}"]`).forEach(element => {
+    element.classList.add('active');
+  });
+  
+  // Update search placeholders
+  const placeholder = translations.searchPlaceholder[lang];
+  document.getElementById('searchInput').placeholder = placeholder;
+  document.getElementById('mobileSearchInput').placeholder = placeholder;
+}
+
+// Load saved language preference on page load
+function loadLanguagePreference() {
+  const savedLang = localStorage.getItem('preferredLanguage') || 'en';
+  switchLanguage(savedLang);
+}
+
+// Search data with both English and Arabic
 const searchData = [
-  { title: "Positive Vibes at Home", url: "positive-vibes.html", keywords: ["home", "vibes", "positive", "decor"] },
-  { title: "Luxury Looks for Less", url: "budgetdecor.html", keywords: ["budget", "luxury", "decor", "cheap"] },
-  { title: "Decor & Garden Picks", url: "decorgarden.html", keywords: ["decor", "garden", "plants", "outdoor"] },
-  { title: "Clothes Storage & Organization", url: "Organizingclothes.html", keywords: ["clothes", "storage", "organization", "closet"] },
-  { title: "Study Smart with AI", url: "study.html", keywords: ["study", "ai", "smart", "learning"] },
-  { title: "Smart Living", url: "smart-home-essentials.html", keywords: ["smart", "home", "tech", "automation"] },
-  { title: "Best Game Controllers", url: "games.html", keywords: ["games", "controller", "gaming"] },
-  { title: "Wellbeing & Self-Care", url: "wellbeing.html", keywords: ["wellbeing", "self-care", "health"] },
-  { title: "Routine Essentials", url: "routine.html", keywords: ["routine", "daily", "habits"] },
-  { title: "Lose 7lbs in 30 Days", url: "weightlose.html", keywords: ["weight", "loss", "diet", "fitness"] },
-  { title: "Fix Mummy Tummy Naturally", url: "mummytommy.html", keywords: ["mummy", "tummy", "postpartum", "fitness"] },
-  { title: "Skincare Picks", url: "skincare.html", keywords: ["skincare", "beauty", "face"] },
-  { title: "Best Hair Tools", url: "haircare.html", keywords: ["hair", "tools", "styling"] },
-  { title: "2025's Best Skincare Tools", url: "skincare-tools.html", keywords: ["skincare", "tools", "beauty", "2025"] },
-  { title: "DIY Glass Skin", url: "glassskin.html", keywords: ["glass", "skin", "diy", "skincare"] },
-  { title: "Hair Loss Treatment", url: "Thinhair.html", keywords: ["hair", "loss", "treatment", "thin"] },
-  { title: "Red Light Glow", url: "redlight.html", keywords: ["red", "light", "therapy", "glow"] },
-  { title: "Best Picks to Buy for Kids", url: "bestpickid.html", keywords: ["kids", "children", "toys", "picks"] },
-  { title: "Kitchen Tools", url: "kitchen-tools.html", keywords: ["kitchen", "tools", "cooking"] },
-  { title: "Quick Recipes", url: "recipes.html", keywords: ["recipes", "cooking", "quick", "food"] },
-  { title: "Best Diet for Weight Loss", url: "diet.html", keywords: ["diet", "weight", "loss", "nutrition"] },
-  { title: "Latest Deals", url: "deals.html", keywords: ["deals", "discount", "sale"] },
-  { title: "Gadgets Under $50", url: "gadgets-under-50.html", keywords: ["gadgets", "cheap", "budget", "under", "50"] }
+  { title: "Positive Vibes at Home", titleAr: "أجواء إيجابية في المنزل", url: "positive-vibes.html", keywords: ["home", "vibes", "positive", "decor", "منزل", "أجواء", "إيجابية", "ديكور"] },
+  { title: "Luxury Looks for Less", titleAr: "مظهر فاخر بأقل تكلفة", url: "budgetdecor.html", keywords: ["budget", "luxury", "decor", "cheap", "ميزانية", "فاخر", "ديكور", "رخيص"] },
+  { title: "Decor & Garden Picks", titleAr: "اختيارات الديكور والحديقة", url: "decorgarden.html", keywords: ["decor", "garden", "plants", "outdoor", "ديكور", "حديقة", "نباتات"] },
+  { title: "Clothes Storage & Organization", titleAr: "تخزين وتنظيم الملابس", url: "Organizingclothes.html", keywords: ["clothes", "storage", "organization", "closet", "ملابس", "تخزين", "تنظيم"] },
+  { title: "Study Smart with AI", titleAr: "ادرس بذكاء مع الذكاء الاصطناعي", url: "study.html", keywords: ["study", "ai", "smart", "learning", "دراسة", "ذكاء", "اصطناعي", "تعلم"] },
+  { title: "Smart Living", titleAr: "الحياة الذكية", url: "smart-home-essentials.html", keywords: ["smart", "home", "tech", "automation", "ذكي", "منزل", "تقنية", "أتمتة"] },
+  { title: "Best Game Controllers", titleAr: "أفضل أجهزة تحكم الألعاب", url: "games.html", keywords: ["games", "controller", "gaming", "ألعاب", "تحكم", "جيمنج"] },
+  { title: "Wellbeing & Self-Care", titleAr: "الرفاهية والعناية بالذات", url: "wellbeing.html", keywords: ["wellbeing", "self-care", "health", "رفاهية", "عناية", "صحة"] },
+  { title: "Routine Essentials", titleAr: "أساسيات الروتين", url: "routine.html", keywords: ["routine", "daily", "habits", "روتين", "يومي", "عادات"] },
+  { title: "Lose 7lbs in 30 Days", titleAr: "اخسر 7 أرطال في 30 يومًا", url: "weightlose.html", keywords: ["weight", "loss", "diet", "fitness", "وزن", "فقدان", "نظام غذائي"] },
+  { title: "Fix Mummy Tummy Naturally", titleAr: "إصلاح بطن الأم طبيعيًا", url: "mummytommy.html", keywords: ["mummy", "tummy", "postpartum", "fitness", "أم", "بطن", "ولادة"] },
+  { title: "Skincare Picks", titleAr: "اختيارات العناية بالبشرة", url: "skincare.html", keywords: ["skincare", "beauty", "face", "عناية", "بشرة", "جمال", "وجه"] },
+  { title: "Best Hair Tools", titleAr: "أفضل أدوات الشعر", url: "haircare.html", keywords: ["hair", "tools", "styling", "شعر", "أدوات", "تصفيف"] },
+  { title: "2025's Best Skincare Tools", titleAr: "أفضل أدوات العناية بالبشرة لعام 2025", url: "skincare-tools.html", keywords: ["skincare", "tools", "beauty", "2025", "عناية", "بشرة", "أدوات"] },
+  { title: "DIY Glass Skin", titleAr: "بشرة زجاجية بنفسك", url: "glassskin.html", keywords: ["glass", "skin", "diy", "skincare", "زجاجية", "بشرة", "بنفسك"] },
+  { title: "Hair Loss Treatment", titleAr: "علاج تساقط الشعر", url: "Thinhair.html", keywords: ["hair", "loss", "treatment", "thin", "شعر", "تساقط", "علاج"] },
+  { title: "Red Light Glow", titleAr: "توهج الضوء الأحمر", url: "redlight.html", keywords: ["red", "light", "therapy", "glow", "أحمر", "ضوء", "علاج", "توهج"] },
+  { title: "Best Picks to Buy for Kids", titleAr: "أفضل اختيارات للأطفال", url: "bestpickid.html", keywords: ["kids", "children", "toys", "picks", "أطفال", "لعب", "اختيارات"] },
+  { title: "Kitchen Tools", titleAr: "أدوات المطبخ", url: "kitchen-tools.html", keywords: ["kitchen", "tools", "cooking", "مطبخ", "أدوات", "طبخ"] },
+  { title: "Quick Recipes", titleAr: "وصفات سريعة", url: "recipes.html", keywords: ["recipes", "cooking", "quick", "food", "وصفات", "طبخ", "سريع", "طعام"] },
+  { title: "Best Diet for Weight Loss", titleAr: "أفضل نظام غذائي لفقدان الوزن", url: "diet.html", keywords: ["diet", "weight", "loss", "nutrition", "نظام غذائي", "وزن", "فقدان", "تغذية"] },
+  { title: "Latest Deals", titleAr: "أحدث العروض", url: "deals.html", keywords: ["deals", "discount", "sale", "عروض", "خصم", "تخفيض"] },
+  { title: "Gadgets Under $50", titleAr: "أدوات تحت 50 دولار", url: "gadgets-under-50.html", keywords: ["gadgets", "cheap", "budget", "under", "50", "أدوات", "رخيص", "ميزانية", "تحت", "دولار"] }
 ];
 
 function setupSearch(inputId, suggestionsId) {
@@ -695,18 +999,22 @@ function setupSearch(inputId, suggestionsId) {
       return;
     }
 
-    const matches = searchData.filter(item => 
-      item.title.toLowerCase().includes(query) || 
-      item.keywords.some(keyword => keyword.toLowerCase().includes(query))
-    );
+    const currentLang = localStorage.getItem('preferredLanguage') || 'en';
+    const matches = searchData.filter(item => {
+      const title = currentLang === 'ar' ? item.titleAr : item.title;
+      return title.toLowerCase().includes(query) || 
+             item.keywords.some(keyword => keyword.toLowerCase().includes(query));
+    });
 
     if (matches.length > 0) {
-      suggestionsDiv.innerHTML = matches.slice(0, 8).map(item => 
-        `<div class="search-suggestion" onclick="navigateTo('${item.url}')">${item.title}</div>`
-      ).join('');
+      suggestionsDiv.innerHTML = matches.slice(0, 8).map(item => {
+        const title = currentLang === 'ar' ? item.titleAr : item.title;
+        return `<div class="search-suggestion" onclick="navigateTo('${item.url}')">${title}</div>`;
+      }).join('');
       suggestionsDiv.style.display = 'block';
     } else {
-      suggestionsDiv.innerHTML = '<div class="search-suggestion">No results found</div>';
+      const noResults = currentLang === 'ar' ? 'لم يتم العثور على نتائج' : 'No results found';
+      suggestionsDiv.innerHTML = `<div class="search-suggestion">${noResults}</div>`;
       suggestionsDiv.style.display = 'block';
     }
   });
@@ -722,10 +1030,12 @@ function setupSearch(inputId, suggestionsId) {
   searchInput.addEventListener('keypress', function(e) {
     if (e.key === 'Enter') {
       const query = this.value.toLowerCase().trim();
-      const match = searchData.find(item => 
-        item.title.toLowerCase().includes(query) || 
-        item.keywords.some(keyword => keyword.toLowerCase().includes(query))
-      );
+      const currentLang = localStorage.getItem('preferredLanguage') || 'en';
+      const match = searchData.find(item => {
+        const title = currentLang === 'ar' ? item.titleAr : item.title;
+        return title.toLowerCase().includes(query) || 
+               item.keywords.some(keyword => keyword.toLowerCase().includes(query));
+      });
       
       if (match) {
         navigateTo(match.url);
@@ -735,7 +1045,10 @@ function setupSearch(inputId, suggestionsId) {
 }
 
 function navigateTo(url) {
-  window.location.href = url;
+  // Add language parameter to URL to maintain language preference
+  const currentLang = localStorage.getItem('preferredLanguage') || 'en';
+  const separator = url.includes('?') ? '&' : '?';
+  window.location.href = `${url}${separator}lang=${currentLang}`;
 }
 
 // Auto-rotating news slides
@@ -752,6 +1065,20 @@ function startNewsRotation() {
 
 // Initialize everything when page loads
 document.addEventListener('DOMContentLoaded', function() {
+  // Load language preference first
+  loadLanguagePreference();
+  
+  // Setup language toggles
+  document.getElementById('lang-en').addEventListener('click', function(e) {
+    e.preventDefault();
+    switchLanguage('en');
+  });
+  
+  document.getElementById('lang-ar').addEventListener('click', function(e) {
+    e.preventDefault();
+    switchLanguage('ar');
+  });
+  
   // Setup search for both desktop and mobile
   setupSearch('searchInput', 'searchSuggestions');
   setupSearch('mobileSearchInput', 'mobileSearchSuggestions');
@@ -761,11 +1088,20 @@ document.addEventListener('DOMContentLoaded', function() {
   const navCats = document.getElementById('navCats');
   
   if (hamburger && navCats) {
-    hamburger.addEventListener('click', function() {
+    hamburger.addEventListener('click', function(e) {
+      e.stopPropagation();
       hamburger.classList.toggle('open');
       navCats.classList.toggle('open');
     });
   }
+
+  // Close mobile menu when clicking outside
+  document.addEventListener('click', function(e) {
+    if (!navCats.contains(e.target) && !hamburger.contains(e.target)) {
+      navCats.classList.remove('open');
+      hamburger.classList.remove('open');
+    }
+  });
 
   // Start news rotation
   startNewsRotation();
@@ -776,13 +1112,22 @@ document.addEventListener('DOMContentLoaded', function() {
     const link = item.querySelector('a');
     const dropdown = item.querySelector('.dropdown');
     
-    if (dropdown && window.innerWidth <= 768) {
+    if (dropdown) {
       link.addEventListener('click', function(e) {
-        e.preventDefault();
-        item.classList.toggle('open');
+        if (window.innerWidth <= 768) {
+          e.preventDefault();
+          item.classList.toggle('open');
+        }
       });
     }
   });
+
+  // Check URL parameters for language
+  const urlParams = new URLSearchParams(window.location.search);
+  const langParam = urlParams.get('lang');
+  if (langParam && (langParam === 'en' || langParam === 'ar')) {
+    switchLanguage(langParam);
+  }
 });
 </script>
 

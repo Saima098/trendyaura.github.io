@@ -16,9 +16,16 @@
       transition: all 0.3s ease;
     }
     
-    /* Language switching styles */
-    .lang-content { display: none; }
-    .lang-content.active { display: block; }
+    /* Language switching styles - IMPORTANT */
+    .lang-content { 
+      display: none !important; 
+    }
+    .lang-content.active { 
+      display: block !important; 
+    }
+    .lang-content.active.inline { 
+      display: inline !important; 
+    }
 
     /* RTL support for Arabic */
     [dir="rtl"] {
@@ -27,14 +34,39 @@
 
     /* Utility Bar */
     .utility-bar{
-      position:sticky; top:0; z-index:1002;
-      background:#2c3e50; color:#fff;
-      display:flex; align-items:center; justify-content:space-between;
-      padding:8px 16px; border-bottom:1px solid rgba(255,255,255,.08);
+      position: sticky; 
+      top: 0; 
+      z-index: 1002;
+      background: #2c3e50; 
+      color: #fff;
+      display: flex; 
+      align-items: center; 
+      justify-content: space-between;
+      padding: 8px 16px; 
+      border-bottom: 1px solid rgba(255,255,255,.08);
     }
-    .language-toggle{ display:flex; gap:10px; align-items:center; }
-    .language-toggle a{ color:#fff; font-weight:600; opacity:.9; cursor:pointer; }
-    .language-toggle a.active{ text-decoration:underline; opacity:1; }
+    .language-toggle{ 
+      display: flex; 
+      gap: 10px; 
+      align-items: center; 
+    }
+    .language-toggle a{ 
+      color: #fff !important; 
+      font-weight: 600; 
+      opacity: .9; 
+      cursor: pointer; 
+      text-decoration: none;
+      padding: 5px 10px;
+      border-radius: 3px;
+      transition: all 0.3s ease;
+    }
+    .language-toggle a:hover{ 
+      background: rgba(255,255,255,0.1);
+    }
+    .language-toggle a.active{ 
+      background: rgba(255,255,255,0.2);
+      opacity: 1; 
+    }
     
     header {
       text-align: center;
@@ -99,6 +131,12 @@
       padding: 15px;
       border-radius: 8px;
     }
+    
+    /* Debug styles - remove after testing */
+    .debug {
+      border: 2px solid red;
+      background: yellow;
+    }
   </style>
 </head>
 <body>
@@ -106,9 +144,9 @@
   <!-- Utility bar -->
   <div class="utility-bar">
     <div class="language-toggle">
-      <a href="#" class="active" id="lang-en">English</a>
+      <a href="javascript:void(0)" class="lang-btn active" data-lang="en" id="lang-en">English</a>
       <span>|</span>
-      <a href="#" id="lang-ar">العربية</a>
+      <a href="javascript:void(0)" class="lang-btn" data-lang="ar" id="lang-ar">العربية</a>
     </div>
     <div style="width:26px;height:1px;"></div>
   </div>
@@ -368,70 +406,83 @@
   </div>
 
   <script>
-    // Language switching functionality
-    function initLanguage() {
-      // Check saved language preference
-      const savedLang = localStorage.getItem('preferred-language') || 'en';
-      
-      // Set initial language
-      switchLanguage(savedLang);
-      
-      // Update language toggle buttons
-      updateLanguageButtons(savedLang);
-    }
+    // Enhanced Language switching functionality
+    let currentLanguage = 'en';
 
     function switchLanguage(lang) {
-      // Hide all language content
-      document.querySelectorAll('.lang-content').forEach(element => {
+      console.log('Switching to language:', lang); // Debug log
+      
+      // Store current language
+      currentLanguage = lang;
+      
+      // Hide all language content first
+      const allLangContent = document.querySelectorAll('.lang-content');
+      allLangContent.forEach(element => {
         element.classList.remove('active');
       });
       
-      // Show content for selected language
-      document.querySelectorAll(`[data-lang="${lang}"]`).forEach(element => {
+      // Show content for selected language  
+      const selectedLangContent = document.querySelectorAll(`[data-lang="${lang}"]`);
+      selectedLangContent.forEach(element => {
         element.classList.add('active');
       });
       
-      // Set page direction for Arabic
+      // Update page direction and language
       document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
       document.documentElement.lang = lang;
       
+      // Update language buttons
+      updateLanguageButtons(lang);
+      
       // Save language preference
       localStorage.setItem('preferred-language', lang);
+      
+      console.log('Language switched to:', lang); // Debug log
     }
 
     function updateLanguageButtons(lang) {
-      const langEn = document.getElementById('lang-en');
-      const langAr = document.getElementById('lang-ar');
-      
-      if (langEn && langAr) {
-        langEn.classList.toggle('active', lang === 'en');
-        langAr.classList.toggle('active', lang === 'ar');
-      }
+      const langButtons = document.querySelectorAll('.lang-btn');
+      langButtons.forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.dataset.lang === lang) {
+          btn.classList.add('active');
+        }
+      });
     }
 
-    // Language toggle event listeners
+    function initLanguage() {
+      // Check saved language preference or default to English
+      const savedLang = localStorage.getItem('preferred-language') || 'en';
+      console.log('Initializing language:', savedLang); // Debug log
+      switchLanguage(savedLang);
+    }
+
+    // Initialize when page loads
     document.addEventListener('DOMContentLoaded', function() {
-      // Initialize language on page load
+      console.log('DOM loaded, initializing language'); // Debug log
+      
+      // Initialize language
       initLanguage();
       
-      // English button click
-      const langEn = document.getElementById('lang-en');
-      if (langEn) {
-        langEn.addEventListener('click', function(e) {
+      // Add click event listeners to language buttons
+      const langButtons = document.querySelectorAll('.lang-btn');
+      langButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
           e.preventDefault();
-          switchLanguage('en');
-          updateLanguageButtons('en');
+          const selectedLang = this.dataset.lang;
+          console.log('Language button clicked:', selectedLang); // Debug log
+          switchLanguage(selectedLang);
         });
-      }
+      });
       
-      // Arabic button click
-      const langAr = document.getElementById('lang-ar');
-      if (langAr) {
-        langAr.addEventListener('click', function(e) {
-          e.preventDefault();
-          switchLanguage('ar');
-          updateLanguageButtons('ar');
-        });
+      console.log('Language system initialized'); // Debug log
+    });
+
+    // Also listen for page load events
+    window.addEventListener('load', function() {
+      console.log('Window loaded, checking language'); // Debug log
+      if (!currentLanguage) {
+        initLanguage();
       }
     });
   </script>
